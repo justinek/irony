@@ -1,0 +1,4 @@
+*.results
+*modelsWith*
+*outputsWith*
+*parsedOutputsWith*

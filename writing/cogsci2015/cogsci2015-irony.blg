@@ -1,0 +1,64 @@
+This is BibTeX, Version 0.99d (TeX Live 2013)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: cogsci2015-irony.aux
+The style file: apacite.bst
+Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
+Reallocated global_strs (elt_size=20001) to 20 items from 10.
+Reallocated glb_str_end (elt_size=4) to 20 items from 10.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
+Database file #1: irony.bib
+Warning--I didn't find a database entry for "NewellSimon1972a"
+Warning--I didn't find a database entry for "ChalnickBillman1988a"
+Warning--I didn't find a database entry for "Feigenbaum1963a"
+Warning--I didn't find a database entry for "Hill1983a"
+Warning--I didn't find a database entry for "OhlssonLangley1985a"
+Warning--I didn't find a database entry for "Matlock2001"
+Warning--I didn't find a database entry for "ShragerLangley1990a"
+apacite.bst [2012/02/25 v6.01 APA bibliography style]
+Warning--No journal in clark1984pretense
+You've used 22 entries,
+            6735 wiz_defined-function locations,
+            1388 strings with 14021 characters,
+and the built_in function-call counts, 39955 in all, are:
+= -- 5169
+> -- 330
+< -- 1734
++ -- 1808
+- -- 45
+* -- 2442
+:= -- 6919
+add.period$ -- 96
+call.type$ -- 22
+change.case$ -- 394
+chr.to.int$ -- 0
+cite$ -- 45
+duplicate$ -- 1014
+empty$ -- 1612
+format.name$ -- 518
+if$ -- 7852
+int.to.chr$ -- 0
+int.to.str$ -- 48
+missing$ -- 0
+newline$ -- 543
+num.names$ -- 176
+pop$ -- 682
+preamble$ -- 1
+purify$ -- 88
+quote$ -- 0
+skip$ -- 2827
+stack$ -- 0
+substring$ -- 2046
+swap$ -- 618
+text.length$ -- 62
+text.prefix$ -- 0
+top$ -- 1
+type$ -- 2016
+warning$ -- 1
+while$ -- 177
+width$ -- 0
+write$ -- 669
+(There were 8 warnings)

@@ -1,0 +1,378 @@
+<html>
+<head>
+  <title>Weather</title>
+<script src="https://www.stanford.edu/~dco/common/jquery.min.js"></script>
+<script src="https://www.stanford.edu/~dco/common/mmturkey.0.5.js?nowarn"></script>
+<link rel="stylesheet" href="style.css" />
+<link type="text/css" rel="stylesheet" href="../sliders/jquery-ui.css" /></p>
+<script src="../sliders/jquery.min.js"></script> <script src="../sliders/jquery-ui.min.js"></script>
+</head>
+<body>
+<div class="progress">
+    <div class="bar-wrapper">
+      <div class="bar"></div>
+    </div>
+    <p><span id="trial-num">{{}}</span><span>/</span><span id="total-num">{{}}</span></p>
+</div>
+<div class="slide" id="instructions">
+  <img src="https://www.stanford.edu/~justinek/images/stanford.png" alt="Stanford University">
+    <p id='logo-text'>Stanford Computation and Cognition Lab</p>
+  <p class="block-text">
+  Thank you for participating in our experiment. In this experiment, we are interested in how
+  people understand the things that people say in different scenarios.
+  </p>
+  <button type="button" onclick="this.blur(); experiment.description()">Start</button>
+<p class="block-text" id="legal">Legal information: By answering the
+    following questions, you are participating in a study being performed by
+    cognitive scientists in the Stanford Department of Psychology. If you have
+    questions about this research, please contact <b>Justine Kao at <a
+    href="mailto://justinek@stanford.edu">justinek@stanford.edu</a></b> or Noah Goodman 
+    at ngoodman@stanford.edu. You must be  at least 18 years old to
+    participate. Your participation in this research is voluntary. You may
+    decline to answer any or all of the following questions. You may decline
+    further participation, at any time, without adverse consequences. Your
+    anonymity is assured; the researchers who have requested your
+    participation will not receive any personal information about you.</p>
+</div>
+<script LANGUAGE="JavaScript">
+
+
+function ValidateSliderForm(form, sliderType){ 
+    if (sliderType == 0) {
+        var sliderName = "stateSlider";
+        var numSliders = NUM_STATE_SLIDERS;
+    } else {
+        var sliderName = "emoSlider";
+        var numSliders = NUM_EMO_SLIDERS;
+    }
+    
+    for (var i=1; i <= numSliders; i++) {
+        if (document.getElementById(sliderName + i).style.background == "") {
+        alert ( "Please answer all the questions." );
+        return false;
+        }
+    }
+    return true;
+}
+
+
+
+function ValidateForm(form){
+    var valid = 0;
+    for (var i = 0; i < form.elements.length; i++) {
+        if (form.elements[i].checked == true ) { 
+            valid = 1; 
+            return true;
+        } 
+    } 
+    if (valid == 0) {
+        alert ( "Please answer this question." );
+        return false; 
+    }
+}
+
+
+function ValidateSelect(form) {
+    if (form.ageRange.selectedIndex != 0 && form.ageRange.selectedIndex != 1 && form.ageRange.selectedIndex != 2 && form.ageRange.selectedIndex != 3 && form.ageRange.selectedIndex != 4 && form.ageRange.selectedIndex != 5 && form.ageRange.selectedIndex != 6) {
+        alert ( "Please answer this question." );
+        return false;
+    }
+    return true; 
+}
+
+function ValidateNumber(field)
+{
+    valid = true;
+    if (field.value == "")
+    {
+        alert ("Please answer all the questions.");
+        valid = false;
+    }
+    if (isNaN(field.value)) {
+        alert ("Please answer using only numbers.");
+        valid = false;
+    }
+    return valid;
+
+}
+
+function ValidateNumberLength(field, length)
+{
+    valid = true;
+    if (field.value == "")
+    {
+        alert ("Please answer all the questions.");
+        valid = false;
+    }
+    if (isNaN(field.value)) {
+        alert ("Please answer using only numbers.");
+        valid = false;
+    }
+    if (field.value.length > length) {
+        alert("You entered too many numbers. Please make sure your numbers make sense.");
+        valid = false;
+    }
+    return valid;
+
+}
+
+function checkPreview() {
+    if (turk.previewMode) {
+        alert ("Please accept this HIT to see more qeustions.");
+        return false;
+    }
+    return true;
+}
+
+function ValidateText(field)
+{
+    valid = true;
+
+    if (field.value == "" )
+    {
+        alert ("Please answer all the questions.");
+        valid = false;
+    }
+
+    return valid;
+}
+
+
+
+function pressEnter(e) {
+    if (e.keyCode == 13) {
+        document.price.next.click();
+        return false;
+    }
+}
+
+
+
+</script>
+
+<div class="slide" id="description">
+<p id='logo-text'>Instructions</p>
+<p class="block-text">You will be presented with <span id="tot-num">{{}}</span> scenarios where people talk about the weather. Please read each of the scenarios carefully and answer questions about them.</p>
+
+<p class="block-text">Please note that the scenarios are <b><i>not</i></b> related to each other. In fact, they happen with different people, on different days, and at different places.</p>
+</br>
+</br>
+<div id="form">
+<button type="button" onclick="this.blur(); if (checkPreview()) 
+{experiment.next();
+document.getElementById('qState').hidden=true;
+document.getElementById('qEmo').hidden=true;
+document.getElementById('nextToState').hidden=false;
+document.getElementById('nextToEmo').hidden=true;
+document.getElementById('next').hidden=true;}">Next</button>
+</div>
+</div>
+
+
+
+<!-- No speaker -->
+
+
+<div class="slide" id="stage">
+<!--
+    <p id="statement"><span id="buyer1">{{}}</span> saw his friend's new <span id="domain1">{{}}</span> and asked how much it cost.</p>
+    <p id="statement">His friend said, "The <span id="domain2">{{}}</span> cost <span id="cost">{{}}</span> dollars."</p>
+    </br>
+-->
+    <p id="statement"><span id="name1">{{}}</span> and <span id="pronoun2">{{}}</span> friend look out the window, and this is what they see:</p>
+    <p id="statement"> <input id="weather-image" type="image" style="width:450px;height:280px"></p>
+    <!--
+    <p id="statement"><span id="personA2">{{}}</span> said to a friend: "<span id="personB2">{{}}</span> ate <span id="quantifier">{{}}</span> of the <span id="food2">{{}}</span>!"
+    -->
+    <p id="statement"><span id="name2">{{}}</span> says, "The weather is <span id="utterance">{{}}</span>!"</p>
+
+    <span id="qState">
+
+    <p id="question">How would <span id="name3">{{}}</span> actually rate the weather using the following scale?</p>
+<div id="form">
+    
+    <form name= "stateForm">
+    <table width="500" cellspacing="0" cellpadding="0" border="0" align="center" class="text-center">
+    <tr>
+        <td><span id="opt">Terrible</span></td>
+        <td><span id="opt">Bad</span></td>
+        <td><span id="opt">Neutral</span></td>
+        <td><span id="opt">Good</span></td>
+        <td><span id="opt">Amazing</span></td>
+    </tr>
+    <tr>
+        <td><input type="radio" name="weather" value="1" /></td>
+        <td><input type="radio" name="weather" value="2" /></td>
+        <td><input type="radio" name="weather" value="3" /></td>
+        <td><input type="radio" name="weather" value="4" /></td>
+        <td><input type="radio" name="weather" value="5" /></td>
+
+    </tr>
+</table>
+<!--
+    <input type="hidden" name="stateSlider1" id="stateSliderValue1" />
+    <input type="hidden" name="stateSlider2" id="stateSliderValue2" />
+    <input type="hidden" name="stateSlider3" id="stateSliderValue3" />
+
+    <table width="650" cellspacing="0" cellpadding="0" border="0" align="center">
+
+
+      <tr>
+        <td width="50" align="right"><span class="affect" id="state1">{{}}}</span></td>
+        <td align="center" colspan="3"><div class="slider" id="stateSlider1">&nbsp;</div></td>
+      </tr> 
+      <tr>
+        <td width="50" align="right"><span class="affect" id="state2">{{}}}</span></td>
+        <td align="center" colspan="3"><div class="slider" id="stateSlider2">&nbsp;</div></td>
+      </tr> 
+      <tr>
+        <td width="50" align="right"><span class="affect" id="state3">{{}}}</span></td>
+        <td align="center" colspan="3"><div class="slider" id="stateSlider3">&nbsp;</div></td>
+      </tr> 
+
+    </table>
+-->
+</form>
+</div>
+</span>
+
+<span id="qEmo">
+<p id="question">How likely does <span id="name4">{{}}</span> feel the following ways about the weather?</p>
+    <div id="form">
+    <form name= "emoForm">
+
+    <input type="hidden" name="emoSlider1" id="emoSliderValue1" />
+    <input type="hidden" name="emoSlider2" id="emoSliderValue2" />
+    <input type="hidden" name="emoSlider3" id="emoSliderValue3" />
+    <input type="hidden" name="emoSlider4" id="emoSliderValue4" />
+    <input type="hidden" name="emoSlider5" id="emoSliderValue5" />
+    <input type="hidden" name="emoSlider6" id="emoSliderValue6" />
+    <input type="hidden" name="emoSlider7" id="emoSliderValue7" />
+
+    <table width="650" cellspacing="0" cellpadding="0" border="0" align="center">
+
+        <tr>
+        <td width="20" valign="top" align="center"><br /></td>
+        <td width="100" valign="top" align="center">Impossible<br />|</td>
+        <td width="200" valign="top" align="center"><br /></td>
+        <td width="100" valign="top" align="center">Absolutely certain<br />|</td>
+      </tr>
+      <tr>
+        <td width="50" align="right"><span class="affect" id="affect1">{{}}}</span></td>
+        <td align="center" colspan="3"><div class="slider" id="emoSlider1">&nbsp;</div></td>
+      </tr> 
+      <tr>
+        <td width="50" align="right"><span class="affect" id="affect2">{{}}}</span></td>
+        <td align="center" colspan="3"><div class="slider" id="emoSlider2">&nbsp;</div></td>
+      </tr> 
+      <tr>
+        <td width="50" align="right"><span class="affect" id="affect3">{{}}}</span></td>
+        <td align="center" colspan="3"><div class="slider" id="emoSlider3">&nbsp;</div></td>
+      </tr> 
+      <tr>
+        <td width="50" align="right"><span class="affect" id="affect4">{{}}}</span></td>
+        <td align="center" colspan="3"><div class="slider" id="emoSlider4">&nbsp;</div></td>
+      </tr>
+      <tr>
+        <td width="50" align="right"><span class="affect" id="affect5">{{}}}</span></td>
+        <td align="center" colspan="3"><div class="slider" id="emoSlider5">&nbsp;</div></td>
+      </tr>
+      <tr>
+        <td width="50" align="right"><span class="affect" id="affect6">{{}}}</span></td>
+        <td align="center" colspan="3"><div class="slider" id="emoSlider6">&nbsp;</div></td>
+      </tr>
+      <tr>
+        <td width="50" align="right"><span class="affect" id="affect7">{{}}}</span></td>
+        <td align="center" colspan="3"><div class="slider" id="emoSlider7">&nbsp;</div></td>
+      </tr>
+      
+      
+    </table>
+</form>
+</div>
+</span>
+<div id="form">   
+    <button type="button" id="nextToState" onclick="this.blur(); 
+    {document.getElementById('qState').hidden=false;
+    document.getElementById('qEmo').hidden=true;
+    document.getElementById('nextToState').hidden=true;
+    document.getElementById('nextToEmo').hidden=false;
+    document.getElementById('next').hidden=true;}">Next</button>
+    <button type="button" id="nextToEmo" onclick="this.blur(); 
+    if (ValidateForm(document.stateForm)) 
+    {document.getElementById('qEmo').hidden=false;
+    document.getElementById('qState').hidden=true;
+    document.getElementById('nextToEmo').hidden=true;
+    document.getElementById('nextToState').hidden=true;
+    document.getElementById('next').hidden=false;}">Next</button>
+    <button type="button" id="next" onclick="this.blur(); 
+    if (ValidateSliderForm(document.emoForm, 1)) 
+    {document.getElementById('qEmo').hidden=true;
+    document.getElementById('nextToState').hidden=false;
+    document.getElementById('qState').hidden=true;
+    document.getElementById('nextToEmo').hidden=true;
+    document.getElementById('next').hidden=true;
+    experiment.next();}">Next</button>
+</div>
+</div>
+
+<div class="slide" id="askInfo">
+    
+    <div id="form">
+    <p id="infoQ">Please answer a few questions about yourself. </p>
+    <form name="gender">
+    </br>
+    <span id="infoQ">Gender:</span>&nbsp;&nbsp;
+    <input type="radio" name="genderButton" value="M" /><span id="opt">Male</span>&nbsp;&nbsp;
+    <input type="radio" name="genderButton" value="F" /><span id="opt">Female</span>
+    <input type="radio" name="genderButton" value="O" /><span id="opt">Other</span>
+    </form>
+    
+    <form name="age">
+    <span id="infoQ">Age range:</span>&nbsp;&nbsp;
+    <select name=ageRange>
+    <option value=17><span id="opt">Under 18</span></option>
+    <option value=25><span id="opt">18-25</span></option>
+    <option value=35><span id="opt">26-35</span></option>
+    <option value=45><span id="opt">36-45</span></option>
+    <option value=55><span id="opt">46-55</span></option>
+    <option value=65><span id="opt">56-65</span></option>
+    <option value=66><span id="opt">Above 66</span></option>
+    </select>
+    </form>
+    
+    <form name="income">
+    <span id="infoQ">Yearly income range:</span>&nbsp;&nbsp;
+    <select name=incomeRange>
+    <option value=0><span id="opt">Prefer not to answer</span></option>
+    <option value=4><span id="opt">Under 40,000</span></option>
+    <option value=6><span id="opt">40,000-60,000</span></option>
+    <option value=8><span id="opt">60,000-80,000</span></option>
+    <option value=10><span id="opt">80,000-100,000</span></option>
+    <option value=11><span id="opt">Above 100,000</span></option>
+    </select>
+    </form>
+    
+    <form name="language">
+    <span id="infoQ">What is your native language?</span>&nbsp;&nbsp;
+    <input type="text" name="nativeLanguage" /><br />
+    </form>
+    
+
+    <form name="comments">
+    </br>
+    <span id="infoQ"> Please let us know if you have any comments or suggestions.</span></br>
+    <TEXTAREA name="input" ROWS=10 COLS=50></TEXTAREA>
+    </br>
+    </form>
+    <button type="button" onclick="this.blur(); if (ValidateForm(document.gender) && ValidateSelect(document.age) && ValidateText(document.language.nativeLanguage)) {experiment.end();}">Submit</button>
+    </div>
+</div>
+
+<div class="slide" id="finished">
+  You're finished - thanks for participating! Submitting to Mechanical Turk...
+</div>
+<script src="interpretation.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,182 @@
+body {
+  padding: 0;
+  margin: 0;
+  font-family: Palatino Linotype, Bookman Antiqua, Palatino, serif;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.slide {
+  width: 95%;
+  height: 95%;
+  display: none;
+  position: absolute;
+  margin: 0;
+  margin-left: 0.5%;
+  padding: 1% 2% 1% 2%;
+}
+
+input, select, button {font-family: Georgia, serif; font-size: 14px;}
+
+button {
+  background: url(images/button-gradient.png);
+  border: 1px solid #999;
+  border-top: 1px solid #e0e0e0;
+  border-left: 1px solid #e0e0e0;
+  margin: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+  height: 29px;
+  min-width: 70px;
+}
+button:active {
+  border-left: 1px solid #c9c9c9;
+  border-top: 1px solid #c9c9c9;
+  background: none;
+  background-color: #c9c9c9;
+}
+
+button[disabled] {
+  background: url(zen-button.png);
+  border: 1px solid #999;
+  border-top: 1px solid #e0e0e0;
+  border-left: 1px solid #e0e0e0;
+  cursor: not-allowed;
+}
+
+#logo-text {
+  font-weight: bold;
+}
+
+
+.block-text {
+  width: 500px;
+  text-align: justify;
+  margin: 2 auto;
+  margin-bottom: 1em;
+  line-height:1.2em;
+}
+
+#legal {
+  margin: 0 auto;
+  margin-top: 1.5em;
+  font-size: 0.8em;
+}
+
+#statement {
+  font-size: 20px;
+  font-family: Arial, sans-serif;
+  margin-top: 0em;
+  text-align: center;
+  line-height: 20px;
+}
+
+#question{
+    margin: 0auto;
+    margin-top: 1em;
+    font-size: 16px;
+    text-align: center;
+}
+
+#type {
+    margin: 0 auto;
+    margin-top: 8em;
+    font-size: 18px;
+    text-align: center;
+}
+
+#instructions {
+    margin: 0 auto;
+    margin-top: 1em;
+    font-size: 20px;
+    text-align: center;
+}
+
+
+#description {
+    margin: 0 auto;
+    margin-top: 1em;
+    font-size: 20px;
+    text-align: center;
+}
+
+
+#scale {
+    margin: 0 auto;
+    margin-top: 1em;
+    font-size: 16px;
+    text-align: center;
+    line-height:26px;
+}
+
+
+#form {
+    text-align: center;
+}
+
+#infoQ, #typeEst {
+    font-size: 16px;
+    margin-top: 1em;
+}
+
+#opt {
+    margin: 0 auto;
+    margin-top: 3em;
+    font-size: 16px;
+    text-align: center;
+    line-height: 26px;
+}
+
+.progress{
+    text-align: center;
+    margin-top:0.5em;
+}
+
+.progress span{
+    position:relative;
+    top: -6px;
+    text-align: center;
+}
+
+.bar-wrapper{
+    height:20px;
+    width:200px;
+    border:1px solid #000000;
+    display:inline-block;
+    text-align: center;
+}
+
+.affect{
+  font-size: 18px;
+  font-family: Arial, sans-serif;
+  margin: 10px;
+  text-align: center;
+}
+.bar{
+    position:relative;
+    height:100%;
+    width:0px;
+    background-color:DarkRed;
+    text-align: center;
+}
+          
+.text-center {
+    text-align: center;
+}
+
+.slider { width: 400px;
+               height: 12px;
+               position: relative;
+               margin: 10px; }
+.ui-slider-handle {
+               background: #FAFAFA; }
+
+#preload-01 { background: url(https://http://web.stanford.edu/~justinek/irony_exp/images/weather-amazing1.jpg) no-repeat -9999px -9999px; }
+#preload-02 { background: url(https://http://web.stanford.edu/~justinek/irony_exp/images/weather-amazing2.jpg) no-repeat -9999px -9999px; }
+#preload-03 { background: url(https://http://web.stanford.edu/~justinek/irony_exp/images/weather-amazing3.jpg) no-repeat -9999px -9999px; }
+#preload-04 { background: url(https://http://web.stanford.edu/~justinek/irony_exp/images/weather-ok1.jpg) no-repeat -9999px -9999px; }
+#preload-05 { background: url(https://http://web.stanford.edu/~justinek/irony_exp/images/weather-ok2.jpg) no-repeat -9999px -9999px; }
+#preload-06 { background: url(https://http://web.stanford.edu/~justinek/irony_exp/images/weather-ok3.jpg) no-repeat -9999px -9999px; }
+#preload-07 { background: url(https://http://web.stanford.edu/~justinek/irony_exp/images/weather-terrible1.jpg) no-repeat -9999px -9999px; }
+#preload-08 { background: url(https://http://web.stanford.edu/~justinek/irony_exp/images/weather-terrible2.jpg) no-repeat -9999px -9999px; }
+#preload-09 { background: url(https://http://web.stanford.edu/~justinek/irony_exp/images/weather-terrible3.jpg) no-repeat -9999px -9999px; }

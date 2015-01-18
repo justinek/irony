@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+pushd /Applications/aws-mturk-clt-1.3.0/bin
+./loadHITs.sh $1 $2 $3 $4 $5 $6 $7 $8 $9 -label /Users/justinek/Dropbox/Work/Grad_school/Research/Irony/mturkscripts/interpretation/launch/interpretation -input /Users/justinek/Dropbox/Work/Grad_school/Research/Irony/mturkscripts/interpretation/launch/interpretation.input -question /Users/justinek/Dropbox/Work/Grad_school/Research/Irony/mturkscripts/interpretation/launch/interpretation.question -properties /Users/justinek/Dropbox/Work/Grad_school/Research/Irony/mturkscripts/interpretation/launch/interpretation.properties -maxhits 1
+popd

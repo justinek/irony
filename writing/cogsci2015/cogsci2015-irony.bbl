@@ -404,33 +404,6 @@ Kao, J\BPBI T.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
-Kreuz%
-\ \BBA {} Roberts%
-}{%
-Kreuz%
-\ \BBA {} Roberts%
-}{%
-{\protect \APACyear {1995}}%
-}]{%
-kreuz1995two}
-\APACinsertmetastar {%
-kreuz1995two}%
-\begin{APACrefauthors}%
-Kreuz, R\BPBI J.%
-\BCBT {}\ \BBA {} Roberts, R\BPBI M.%
-\end{APACrefauthors}%
-\unskip\
-\newblock
-\APACrefYearMonthDay{1995}{}{}.
-\newblock
-{\BBOQ}\APACrefatitle {Two cues for verbal irony: Hyperbole and the ironic tone
-  of voice} {Two cues for verbal irony: Hyperbole and the ironic tone of
-  voice}.{\BBCQ}
-\newblock
-\APACjournalVolNumPages{Metaphor and symbol}{10}{1}{21--31}.
-\PrintBackRefs{\CurrentBib}
-
-\bibitem [\protect \citeauthoryear {%
 Leggitt%
 \ \BBA {} Gibbs%
 }{%
@@ -534,29 +507,6 @@ Wallace, B\BPBI C.%
   (so computers probably do, too)}.{\BBCQ}
 \newblock
 \APACjournalVolNumPages{ACL}{}{}{}.
-\PrintBackRefs{\CurrentBib}
-
-\bibitem [\protect \citeauthoryear {%
-Williams%
-}{%
-Williams%
-}{%
-{\protect \APACyear {1984}}%
-}]{%
-williams1984does}
-\APACinsertmetastar {%
-williams1984does}%
-\begin{APACrefauthors}%
-Williams, J\BPBI P.%
-\end{APACrefauthors}%
-\unskip\
-\newblock
-\APACrefYearMonthDay{1984}{}{}.
-\newblock
-{\BBOQ}\APACrefatitle {Does mention (or pretense) exhaust the concept of
-  irony?} {Does mention (or pretense) exhaust the concept of irony?}{\BBCQ}
-\newblock
-\APACjournalVolNumPages{Journal of Experimental Psychology: General}{}{}{}.
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%

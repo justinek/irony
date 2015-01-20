@@ -11,54 +11,48 @@ Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
 Database file #1: irony.bib
-Warning--I didn't find a database entry for "NewellSimon1972a"
-Warning--I didn't find a database entry for "ChalnickBillman1988a"
-Warning--I didn't find a database entry for "Feigenbaum1963a"
-Warning--I didn't find a database entry for "Hill1983a"
-Warning--I didn't find a database entry for "OhlssonLangley1985a"
-Warning--I didn't find a database entry for "Matlock2001"
-Warning--I didn't find a database entry for "ShragerLangley1990a"
+Warning--I didn't find a database entry for "sutton1998reinforcement"
 apacite.bst [2012/02/25 v6.01 APA bibliography style]
 Warning--No journal in clark1984pretense
-You've used 22 entries,
+You've used 20 entries,
             6735 wiz_defined-function locations,
-            1388 strings with 14021 characters,
-and the built_in function-call counts, 39955 in all, are:
-= -- 5169
-> -- 330
-< -- 1734
-+ -- 1808
-- -- 45
-* -- 2442
-:= -- 6919
-add.period$ -- 96
-call.type$ -- 22
-change.case$ -- 394
+            1367 strings with 13612 characters,
+and the built_in function-call counts, 36479 in all, are:
+= -- 4726
+> -- 306
+< -- 1572
++ -- 1638
+- -- 41
+* -- 2229
+:= -- 6283
+add.period$ -- 88
+call.type$ -- 20
+change.case$ -- 360
 chr.to.int$ -- 0
-cite$ -- 45
-duplicate$ -- 1014
-empty$ -- 1612
-format.name$ -- 518
-if$ -- 7852
+cite$ -- 41
+duplicate$ -- 928
+empty$ -- 1472
+format.name$ -- 480
+if$ -- 7182
 int.to.chr$ -- 0
-int.to.str$ -- 48
+int.to.str$ -- 44
 missing$ -- 0
-newline$ -- 543
-num.names$ -- 176
-pop$ -- 682
+newline$ -- 496
+num.names$ -- 160
+pop$ -- 634
 preamble$ -- 1
-purify$ -- 88
+purify$ -- 80
 quote$ -- 0
-skip$ -- 2827
+skip$ -- 2577
 stack$ -- 0
-substring$ -- 2046
-swap$ -- 618
-text.length$ -- 62
+substring$ -- 1856
+swap$ -- 570
+text.length$ -- 58
 text.prefix$ -- 0
 top$ -- 1
-type$ -- 2016
+type$ -- 1856
 warning$ -- 1
-while$ -- 177
+while$ -- 165
 width$ -- 0
-write$ -- 669
-(There were 8 warnings)
+write$ -- 614
+(There were 2 warnings)

@@ -430,3 +430,41 @@ ggplot(comp.prior.arousal, aes(x=utterance, y=value)) +
   theme_bw() +
   facet_wrap(~imageID, ncol=3) 
 
+#################################
+# Toy model simulation
+#################################
+toy.priors <- data.frame(imageID=c(1,1,1,1,1,2,2,2,2,2), utterance=c("prior", "prior", "prior", "prior", "prior",
+                                                                       "prior", "prior", "prior", "prior", "prior"),
+                         state=c("terrible", "bad", "neutral", "good", "amazing", 
+                                                                   "terrible", "bad", "neutral", "good", "amazing"),
+                         probability=c(0.1, 0.5, 0.2, 0.1, 0.1, 0.1, 0.1, 0.1, 0.2, 0.5))
+
+toy.1 <- read.csv("../model/modeltoy-1affect.csv")
+toy.1.state <- aggregate(data=toy.1, probability ~ imageID + utterance + state, FUN=sum)
+toy.1.state.priors <- rbind(toy.priors, toy.1.state)
+toy.1.state.priors$state <- factor(toy.1.state.priors$state, levels=c("terrible", "bad", "neutral", "good", "amazing"))
+toy.1.state.priors$imageID <- factor(toy.1.state.priors$imageID, labels=c("Bad weather", "Amazing weather"))
+ggplot(toy.1.state.priors, aes(x=state, y=probability, color=utterance)) +
+  geom_point() +
+  geom_line(aes(group=utterance)) +
+  facet_grid(.~imageID) +
+  theme_bw() +
+  xlab("Weather state") +
+  ylab("Probability") +
+  scale_color_manual(values=c("grey", "black"), labels=c("Prior", '"The weather is terrible."'), name="") +
+  ylim(c(0, 0.6))
+
+toy.2 <- read.csv("../model/modeltoy-2affect.csv")
+toy.2.state <- aggregate(data=toy.2, probability ~ imageID + utterance + state, FUN=sum)
+toy.2.state.priors <- rbind(toy.priors, toy.2.state)
+toy.2.state.priors$state <- factor(toy.2.state.priors$state, levels=c("terrible", "bad", "neutral", "good", "amazing"))
+toy.2.state.priors$imageID <- factor(toy.2.state.priors$imageID, labels=c("Bad weather", "Amazing weather"))
+ggplot(toy.2.state.priors, aes(x=state, y=probability, color=utterance)) +
+  geom_point() +
+  geom_line(aes(group=utterance)) +
+  facet_grid(.~imageID) +
+  theme_bw() +
+  xlab("Weather state") +
+  ylab("Probability") +
+  scale_color_manual(values=c("grey", "black"), labels=c("Prior", '"The weather is terrible."'), name="") +
+  ylim(c(0, 0.6))

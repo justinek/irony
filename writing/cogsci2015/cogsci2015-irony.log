@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  19 JAN 2015 18:17
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  21 JAN 2015 01:14
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -611,44 +611,23 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 55.
 
+<simulation-1affect.pdf, id=4, 578.16pt x 289.08pt>
+File: simulation-1affect.pdf Graphic file (type pdf)
 
-LaTeX Warning: Citation `roberts1994people' undefined on input line 56.
+<use simulation-1affect.pdf>
+Package pdftex.def Info: simulation-1affect.pdf used on input line 63.
+(pdftex.def)             Requested size: 578.15858pt x 289.07928pt.
 
+<simulation-2affect.pdf, id=5, 578.16pt x 289.08pt>
+File: simulation-2affect.pdf Graphic file (type pdf)
 
-LaTeX Warning: Citation `colston2000contrast' undefined on input line 56.
+<use simulation-2affect.pdf>
+Package pdftex.def Info: simulation-2affect.pdf used on input line 68.
+(pdftex.def)             Requested size: 578.15858pt x 289.07928pt.
 
-
-LaTeX Warning: Citation `colston1997salting' undefined on input line 56.
-
-
-LaTeX Warning: Citation `leggitt2000emotional' undefined on input line 56.
-
-
-LaTeX Warning: Citation `gibbs2000irony' undefined on input line 56.
-
-
-LaTeX Warning: Citation `colston1998you' undefined on input line 56.
-
-
-LaTeX Warning: Citation `colston1997ve' undefined on input line 56.
-
-
-LaTeX Warning: Citation `grice20134' undefined on input line 59.
-
-
-LaTeX Warning: Citation `wilson2006pragmatics' undefined on input line 59.
-
-
-LaTeX Warning: Citation `kao2014nonliteral' undefined on input line 59.
-
-
-LaTeX Warning: Citation `kao2014formalizing' undefined on input line 59.
-
-
-LaTeX Warning: Citation `frank2012predicting' undefined on input line 61.
-
-
-LaTeX Warning: Citation `goodman2013knowledge' undefined on input line 61.
+Overfull \hbox (1.90001pt too wide) in paragraph at lines 62--72
+[]$[]$ $[]$ 
+ []
 
 
 Underfull \vbox (badness 6268) has occurred while \output is active []
@@ -659,65 +638,71 @@ Underfull \vbox (badness 6268) has occurred while \output is active []
 
 ]
 
-LaTeX Warning: Citation `sutton1998reinforcement' undefined on input line 107.
+LaTeX Warning: Citation `sutton1998reinforcement' undefined on input line 120.
 
-[2] <priors.pdf, id=20, 578.16pt x 361.35pt>
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 120.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 120.
+[2 <./simulation-1affect.pdf> <./simulation-2affect.pdf>]
+<priors.pdf, id=31, 578.16pt x 361.35pt>
 File: priors.pdf Graphic file (type pdf)
  <use priors.pdf>
-Package pdftex.def Info: priors.pdf used on input line 138.
+Package pdftex.def Info: priors.pdf used on input line 161.
 (pdftex.def)             Requested size: 578.15858pt x 361.34912pt.
 
-<biplot.pdf, id=21, 361.35pt x 361.35pt>
+<biplot.pdf, id=32, 361.35pt x 361.35pt>
 File: biplot.pdf Graphic file (type pdf)
  <use biplot.pdf>
-Package pdftex.def Info: biplot.pdf used on input line 144.
+Package pdftex.def Info: biplot.pdf used on input line 168.
 (pdftex.def)             Requested size: 361.34912pt x 361.34912pt.
 
-<affect-prior.pdf, id=22, 433.62pt x 252.945pt>
+<affect-prior.pdf, id=33, 433.62pt x 252.945pt>
 File: affect-prior.pdf Graphic file (type pdf)
  <use affect-prior.pdf>
-Package pdftex.def Info: affect-prior.pdf used on input line 150.
+Package pdftex.def Info: affect-prior.pdf used on input line 173.
 (pdftex.def)             Requested size: 433.61894pt x 252.94438pt.
 
-Overfull \hbox (16.26276pt too wide) in paragraph at lines 150--151
+Overfull \hbox (7.22902pt too wide) in paragraph at lines 173--174
 [][] 
  []
 
 
-LaTeX Warning: Reference `priors' on page 3 undefined on input line 154.
+Overfull \hbox (1.90001pt too wide) in paragraph at lines 167--177
+[]$[]$ $[]$ 
+ []
 
 
-LaTeX Warning: Reference `PCA' on page 3 undefined on input line 156.
-
-
-LaTeX Warning: Reference `affect-prior' on page 3 undefined on input line 159.
-
-
-LaTeX Warning: Marginpar on page 3 moved.
-
-[3 <./priors.pdf>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-
-<valence.pdf, id=31, 519.9425pt x 361.35pt>
-File: valence.pdf Graphic file (type pdf)
- <use valence.pdf>
-Package pdftex.def Info: valence.pdf used on input line 179.
-(pdftex.def)             Requested size: 519.94124pt x 361.34912pt.
-
-<arousal.pdf, id=32, 519.9425pt x 361.35pt>
-File: arousal.pdf Graphic file (type pdf)
- <use arousal.pdf>
-Package pdftex.def Info: arousal.pdf used on input line 183.
-(pdftex.def)             Requested size: 519.94124pt x 361.34912pt.
-
+ [3 <./priors.pdf>]
 
 LaTeX Warning: Marginpar on page 4 moved.
 
 
-Underfull \vbox (badness 1365) has occurred while \output is active []
+Underfull \vbox (badness 1005) has occurred while \output is active []
 
- [4 <./biplot.pdf> <./affect-prior.pdf> <./valence.pdf>]
+
+<valence.pdf, id=42, 519.9425pt x 361.35pt>
+File: valence.pdf Graphic file (type pdf)
+ <use valence.pdf>
+Package pdftex.def Info: valence.pdf used on input line 205.
+(pdftex.def)             Requested size: 519.94124pt x 361.34912pt.
+
+<arousal.pdf, id=43, 519.9425pt x 361.35pt>
+File: arousal.pdf Graphic file (type pdf)
+ <use arousal.pdf>
+Package pdftex.def Info: arousal.pdf used on input line 210.
+(pdftex.def)             Requested size: 519.94124pt x 361.34912pt.
+
+Overfull \hbox (1.90001pt too wide) in paragraph at lines 204--214
+[]$[]$ $[]$ 
+ []
+
+
+LaTeX Warning: Marginpar on page 4 moved.
+
+[4 <./biplot.pdf> <./affect-prior.pdf>]
 
 LaTeX Warning: Marginpar on page 5 moved.
 
@@ -727,72 +712,46 @@ LaTeX Warning: Marginpar on page 5 moved.
 
 LaTeX Warning: Marginpar on page 5 moved.
 
-<model-state.pdf, id=55, 578.16pt x 578.16pt>
+<model-state.pdf, id=61, 578.16pt x 578.16pt>
 File: model-state.pdf Graphic file (type pdf)
  <use model-state.pdf>
-Package pdftex.def Info: model-state.pdf used on input line 212.
+Package pdftex.def Info: model-state.pdf used on input line 242.
 (pdftex.def)             Requested size: 578.15858pt x 578.15858pt.
 
-Overfull \hbox (45.16803pt too wide) in paragraph at lines 212--213
+Overfull \hbox (45.16803pt too wide) in paragraph at lines 242--243
 [][] 
  []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [5 <./arousal.pdf> <./model-state.pdf>]
-
-LaTeX Warning: Citation `sperber1981irony' undefined on input line 223.
-
-
-LaTeX Warning: Citation `jorgensen1984test' undefined on input line 223.
-
-
-LaTeX Warning: Citation `clark1984pretense' undefined on input line 223.
-
-
-LaTeX Warning: Citation `davidov2010semi' undefined on input line 226.
-
-
-LaTeX Warning: Citation `filatova2012irony' undefined on input line 226.
-
-
-LaTeX Warning: Citation `gonzalez2011identifying' undefined on input line 226.
-
-
-LaTeX Warning: Citation `wallacehumans' undefined on input line 226.
-
-(./cogsci2015-irony.bbl [6]) [7
-
-] (./cogsci2015-irony.aux)
+ [5 <./valence.pdf> <./arousal.pdf>] [6 <./model-state.pdf>] (./cogsci2015-iron
+y.bbl)
+[7] (./cogsci2015-irony.aux)
 
 LaTeX Warning: There were undefined references.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
  ) 
 Here is how much of TeX's memory you used:
- 12109 strings out of 493315
- 222680 string characters out of 6137904
- 303179 words of memory out of 5000000
- 15265 multiletter control sequences out of 15000+600000
- 45214 words of font info for 96 fonts, out of 8000000 for 9000
+ 12133 strings out of 493315
+ 223149 string characters out of 6137904
+ 308367 words of memory out of 5000000
+ 15289 multiletter control sequences out of 15000+600000
+ 43243 words of font info for 92 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 63i,12n,80p,2065b,667s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 63i,10n,80p,2196b,667s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2013/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
-exlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/te
-xlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/tex
-live/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texli
-ve/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texliv
-e/2013/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2013/texm
-f-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2013/texmf-dist/fon
-ts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/u
-rw/times/utmri8a.pfb>
-Output written on cogsci2015-irony.pdf (7 pages, 216193 bytes).
+exlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/te
+xlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texl
+ive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texli
+ve/2013/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2013/tex
+mf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2013/texmf-dist/fo
+nts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/
+urw/times/utmri8a.pfb>
+Output written on cogsci2015-irony.pdf (7 pages, 218935 bytes).
 PDF statistics:
- 104 PDF objects out of 1000 (max. 8388607)
- 74 compressed objects within 1 object stream
+ 112 PDF objects out of 1000 (max. 8388607)
+ 79 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 43 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 53 words of extra memory for PDF output out of 10000 (max. 10000000)
 

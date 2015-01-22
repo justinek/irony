@@ -26,6 +26,8 @@
 \usepackage{graphicx}
 \usepackage{amssymb,amsfonts,amsmath}
 \usepackage{todonotes}
+\usepackage{caption}
+\usepackage{subcaption}
 
 \title{Let's talk (ironically) about the weather: A computational model of verbal irony}
  
@@ -131,6 +133,28 @@ The resulting distribution over world states and speaker affects is an \emph{int
 \label{sim12}
 \end{figure}
 
+\begin{figure*}
+    %\centering
+    \begin{subfigure}[b]{0.5\textwidth}
+        %\centering
+        \includegraphics[width=220pt, height=150pt]{image-grid}
+        \caption{The nine weather images shown to participants in Experiments 1 and 2.}
+        \label{images}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.5\textwidth}
+       % \centering
+        \includegraphics[width=220pt, height=150pt]{priors}
+        \caption{The proportion of participants who rated each of the weather contexts as each weather state. 
+     %Each panel represents a weather context; each line represents the distribution over weather states for a weather context prior to any linguistic input. For example, the vast majority of participants rated weather context 1 as \emph{amazing}, suggesting that the prior probability of someone believing weather context 1 to be \emph{amazing} is extremely high.
+     }
+        \label{priors}
+    \end{subfigure}
+    \caption{Nine weather contexts and their empirically measured priors over weather states.}
+    \label{fig:three graphs}
+\end{figure*}
+
+
 %\todo[inline]{RDH: It might be helpful here to point out that you're going to try different ways of specifying the QUD space. Otherwise, it may not be clear what you're `considering' these spaces for.}
 We examine the model's behavior using affect spaces with different dimensions.  
 We first consider a one-dimensional affect space, where the dimension is emotional valence---whether the speaker feels negative or positive about the world state.  
@@ -147,7 +171,7 @@ We now consider a more complex affect space with two dimensions---valence and ar
 %\todo[inline]{let's try to compress this formal model description, given that it is the same as the PNAS paper. perhaps just say that we give a sketch, and the details can be found in the other paper?}
 
 \section{Behavioral Experiments}
-We conducted the following two experiments to test our model with the enriched affect space described above. In Experiment 1, we measured the prior beliefs over weather states for various contexts as well as the relevant affect dimensions. In Experiment 2, we collected people's ratings of a speaker's judgment of and feelings towards the weather given what she says about it (e.g. ``The weather is terrible!" when the context clearly depicts sunny weather).
+To quantitatively test our model with the enriched affect space described above, we conducted the following two experiments. In Experiment 1, we measured the prior beliefs over weather states for various weather contexts. We also measured various emotions associated with different weather contexts in order to extract the true affective dimensions relevant to this domain. In Experiment 2, we collected people's ratings of how a speaker perceives and feels about the weather given what she says about it (e.g. ``The weather is terrible!" when the context clearly depicts sunny weather).
 
 %\todo[inline]{I would emphasize in motivating this that we want to explore how the true affective response space can explain irony. Hence we measure the state priors but also measure a bunch of dimensions of potential variance of affect. We can then do dimensionality reduction to extract the true affective dimensions to construct an affect-given-state prior. In model comparison below, make sure we test keeping different numbers of components from the PCA.
 
@@ -157,32 +181,41 @@ We conducted the following two experiments to test our model with the enriched a
 
 \subsection{Experiment 1: Prior elicitation}
 \subsubsection{Materials and methods}
-We selected nine images from Google Images that depict the weather. To cover a range of weather states, three of the images were of sunny weather, three of cloudy weather, and three of rainy or snowy weather. Each of these images represents a \emph{weather context}, or $w_i$. The images can be found here: \todo[inline]{RDH: would you want to put this grid in a figure?}
+We selected nine images from Google Images that depict the weather (Figure~\ref{images}). To cover a range of weather states, three of the images were of sunny weather (\textbf{positive weather}), three of cloudy weather (\textbf{neutral weather}), and three of rainy or snowy weather (\textbf{negative weather}). We refer to these images as weather contexts.
 
-$49$ native English speakers with IP addresses in the United States were recruited on Amazon's Mechanical Turk. Each participant saw all nine images in random order. In each trial, participants were told that a person (e.g. Ann) looks out the window and sees the view depicted by the image. They then indicated how Ann would rate the weather using a labeled 5-point Likert scale, ranging from \emph{terrible}, \emph{bad}, \emph{neutral}, \emph{good}, to \emph{amazing}. Finally, participants used slider bars to rate how likely Ann is to feel each of the following seven emotions about the weather: \emph{excited}, \emph{happy}, \emph{content}, \emph{neutral}, \emph{sad}, \emph{disgusted}, and \emph{angry}. \todo{why these seven? basic emotions according to someone?} The order of the emotions were randomized for each participant but remained consistent across trials for the same participant. The end points of the slider bars were labeled as ``Impossible" and ``Absolutely certain." A link to the experiment is here:
-  
-\subsubsection{Results}
-\begin{figure}[t]
-\scalebox{0.4}{\includegraphics{priors.pdf}}
-\caption{The proportion of participants who rated each of the weather contexts ($w_i$) as each weather state. Each panel represents a weather context; each line represents the distribution over weather states for a weather context prior to any linguistic input. For example, the vast majority of participants rated $w_1$ as \emph{amazing}, suggesting that the prior probability of someone believing $w_1$ to be \emph{amazing} is extremely high.}
-\label{priors}
-\end{figure}
 
-\begin{figure*}
-\begin{minipage}{0.5\textwidth}
-\scalebox{0.5}{\includegraphics{biplot.pdf}}
-\caption{A biplot of the two principal components of the emotion ratings from Experiment 1. PC1 corresponds roughly to positive valence, with higher values for \emph{content, happy}, and \emph{excited} and lower values for \emph{sad, angry}, and \emph{disgusted}. PC2 corresponds roughly to high arousal, with higher values for \emph{excited} and {disgusted} than for \emph{content} and \emph{neutral}.}
-\label{PCA}
-\end{minipage}
-\begin{minipage}{0.5\textwidth}
-\scalebox{0.6}{\includegraphics{affect-prior.pdf}}
-\caption{The average probabilities of positive valence and high arousal associated with each weather state. Error bars are $95\%$ confidence intervals.}
-\label{affect-prior}
-\end{minipage}
-\end{figure*}
-
-For each of the nine weather contexts, we obtained the number of participants who gave each of the weather state ratings and performed add-one Laplace smoothing on the counts. This allowed us to compute a smoothed prior distribution over weather states given each context (see Figure ~\ref{priors}). \todo[inline]{RDH: obviously, need some way of identifying what the different rows and columns of the grid mean}
+%\begin{figure}[t]
+%\scalebox{0.3}{\includegraphics{image-grid.pdf}}
+%\caption{The nine weather images shown to participants.}
+%\label{priors}
+%\end{figure}
 %
+%\begin{figure}[t]
+%\scalebox{0.4}{\includegraphics{priors.pdf}}
+%\caption{The proportion of participants who rated each of the weather contexts ($w_i$) as each weather state. Each panel represents a weather context; each line represents the distribution over weather states for a weather context prior to any linguistic input. For example, the vast majority of participants rated $w_1$ as \emph{amazing}, suggesting that the prior probability of someone believing $w_1$ to be \emph{amazing} is extremely high.}
+%\label{priors}
+%\end{figure}
+
+$49$ native English speakers with IP addresses in the United States were recruited on Amazon's Mechanical Turk. Each participant saw all nine images in random order. In each trial, participants were told that a person (e.g. Ann) looks out the window and sees the view depicted by the image. They then indicated how Ann would rate the weather using a labeled 5-point Likert scale, ranging from \texttt{terrible}, \texttt{bad}, \texttt{neutral}, \texttt{good}, to \texttt{amazing}. Finally, participants used slider bars to rate how likely Ann is to feel each of the following seven emotions about the weather: \emph{excited}, \emph{happy}, \emph{content}, \emph{neutral}, \emph{sad}, \emph{disgusted}, and \emph{angry}. \todo{why these seven? basic emotions according to someone?} The order of the emotions were randomized for each participant but remained consistent across trials for the same participant. The end points of the slider bars were labeled as ``Impossible" and ``Absolutely certain." A link to the experiment is here:
+  
+ 
+\subsubsection{Results}
+
+%\begin{figure*}
+%\begin{minipage}{0.5\textwidth}
+%\scalebox{0.5}{\includegraphics{biplot.pdf}}
+%\caption{A biplot of the two principal components of the emotion ratings from Experiment 1. PC1 corresponds roughly to positive valence, with higher values for \emph{content, happy}, and \emph{excited} and lower values for \emph{sad, angry}, and \emph{disgusted}. PC2 corresponds roughly to high arousal, with higher values for \emph{excited} and {disgusted} than for \emph{content} and \emph{neutral}.}
+%\label{PCA}
+%\end{minipage}
+%\begin{minipage}{0.5\textwidth}
+%\scalebox{0.6}{\includegraphics{affect-prior.pdf}}
+%\caption{The average probabilities of positive valence and high arousal associated with each weather state. Error bars are $95\%$ confidence intervals.}
+%\label{affect-prior}
+%\end{minipage}
+%\end{figure*}
+
+For each of the nine weather contexts, we obtained the number of participants who gave each of the weather state ratings and performed add-one Laplace smoothing on the counts. This allowed us to compute a smoothed prior distribution over weather states given each context (see Figure ~\ref{priors}). %\todo[inline]{RDH: obviously, need some way of identifying what the different rows and columns of the grid mean}
+
 To examine participants' ratings of the affects associated with each context, we first performed Principal Component Analysis (PCA) on the seven emotion category ratings. This allowed us to compress the ratings onto a lower-dimensional space and also reveal the main affective dimensions that are important in this domain. We found that the first two principal components accounted for $69.14\%$ and $13.86\%$ of the variance in the data (see Figure ~\ref{PCA}). In addition, they correspond roughly to the dimensions of emotional valence (positive or negative) and emotional arousal (high or low), respectively, which are consistent with theories of emotion in affective science (cite). 
 \todo{we should do a free response version of this task (``Ann feels ..... about the weather.''), before and after a statement, at some point to see if we are missing any affects... probably not needed for cogsci.}
 In order to examine the probabilities of Ann feeling positive or negative affect and high or low arousal given different weather states, we converted the PCA scores into probabilities as follows. We first normalized the scores in each dimension to have zero mean and unit variance. Treating these normalized scores as quantiles of a standard normal distribution, we used the cumulative distribution function to convert the normalized scores into values between $0$ and $1$. 

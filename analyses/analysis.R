@@ -22,16 +22,23 @@ ggplot(priors.states, aes(x=stateRating, y=prior)) +
   theme_bw()
 
 priors.states$imageID.reordered <- factor(priors.states$imageID, levels=c(3, 2, 1, 6, 5, 4, 8, 7, 9),
-                                          labels=c("w1", "w2", "w3", "w4", "w5", "w6", "w7", "w8", "w9"))
+                                          labels=c("Weather context 1", "Weather context 2", "Weather context 3", 
+                                                   "Weather context 4", "Weather context 5", "Weather context 6", 
+                                                   "Weather context 7", "Weather context 8", "Weather context 9"))
 
-
+priors.states$imageCategory <- ifelse(as.numeric(priors.states$imageID) <= 3, "Positive", 
+                                      ifelse(as.numeric(priors.states$imageID) >=7,
+                                                                                     "Negative", "Neutral"))
+priors.states$imageCategory <- factor(priors.states$imageCategory, levels=c("Positive", "Neutral", "Negative"))
 ggplot(priors.states, aes(x=stateRating, y=prior)) +
-  geom_point(size=3, color="gray") +
-  geom_line(aes(group=imageID), color="gray") +
+  geom_point(size=3, aes(color=imageCategory))+
+  geom_line(aes(group=imageID, color=imageCategory)) +
   ylab("Proportion of participants") +
-  xlab("Weather state rating") +
+  xlab("Weather state") +
   facet_wrap(~imageID.reordered, ncol=3) +
-  theme_bw()
+  theme_bw() +
+  scale_color_manual(values=c("#fc4e2a", "#99d8c9", "#2b8cbe"), name="Weather type") +
+  ylim(c(0, 1))
 
 ggplot(priors.states, aes(x=stateRating, y=prior, color=imageID)) +
   geom_point(size=3) +

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  21 JAN 2015 23:30
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  22 JAN 2015 00:40
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -478,28 +478,49 @@ LaTeX Info: Redefining \addtolength on input line 77.
 )
 \c@@todonotes@numberoftodonotes=\count124
 )
+(/usr/local/texlive/2013/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2013/05/02 v3.3-89 Customizing captions (AR)
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2013/05/02 v1.6-88 caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 57.
+\captionmargin=\dimen159
+\captionmargin@=\dimen160
+\captionwidth=\dimen161
+\caption@tempdima=\dimen162
+\caption@indent=\dimen163
+\caption@parindent=\dimen164
+\caption@hangindent=\dimen165
+)
+\c@ContinuedFloat=\count125
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/caption/subcaption.sty
+Package: subcaption 2013/02/03 v1.1-62 Sub-captions (AR)
+\c@subfigure=\count126
+\c@subtable=\count127
+)
 (./cogsci2015-irony.aux)
 \openout1 = `cogsci2015-irony.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 41.
-LaTeX Font Info:    ... okay on input line 41.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 41.
-LaTeX Font Info:    ... okay on input line 41.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 41.
-LaTeX Font Info:    ... okay on input line 41.
-LaTeX Font Info:    Checking defaults for OMS/pzccm/m/n on input line 41.
-LaTeX Font Info:    Try loading font information for OMS+pzccm on input line 41
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OMS/pzccm/m/n on input line 43.
+LaTeX Font Info:    Try loading font information for OMS+pzccm on input line 43
 .
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/psnfss/omspzccm.fd
 File: omspzccm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/pzccm.
 )
-LaTeX Font Info:    ... okay on input line 41.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 41.
-LaTeX Font Info:    ... okay on input line 41.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 41.
-LaTeX Font Info:    ... okay on input line 41.
-\c@maskedRefs=\count125
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+\c@maskedRefs=\count128
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/apacite/english.apc
 File: english.apc 2012/02/25 v6.01 apacite language file
@@ -508,16 +529,16 @@ LaTeX Info: Redefining \BHBI on input line 130.
 )
 (/usr/local/texlive/2013/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count126
-\scratchdimen=\dimen159
+\scratchcounter=\count129
+\scratchdimen=\dimen166
 \scratchbox=\box37
-\nofMPsegments=\count127
-\nofMParguments=\count128
+\nofMPsegments=\count130
+\nofMParguments=\count131
 \everyMPshowfont=\toks32
-\MPscratchCnt=\count129
-\MPscratchDim=\dimen160
-\MPnumerator=\count130
-\makeMPintoPDFobject=\count131
+\MPscratchCnt=\count132
+\MPscratchDim=\dimen167
+\MPnumerator=\count133
+\makeMPintoPDFobject=\count134
 \everyMPtoPDFconversion=\toks33
 ) (/usr/local/texlive/2013/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
@@ -568,48 +589,50 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 ABD: EveryShipout initializing macros
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14.4> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 43.
-LaTeX Font Info:    Try loading font information for OT1+ptmcm on input line 43
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 45.
+LaTeX Font Info:    Try loading font information for OT1+ptmcm on input line 45
 .
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/psnfss/ot1ptmcm.fd
 File: ot1ptmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OT1/ptmcm.
 )
-LaTeX Font Info:    Try loading font information for OML+ptmcm on input line 43
+LaTeX Font Info:    Try loading font information for OML+ptmcm on input line 45
 .
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/psnfss/omlptmcm.fd
 File: omlptmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OML/ptmcm.
 )
-LaTeX Font Info:    Try loading font information for OMX+psycm on input line 43
+LaTeX Font Info:    Try loading font information for OMX+psycm on input line 45
 .
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/psnfss/omxpsycm.fd
 File: omxpsycm.fd 2000/01/03 Fontinst v1.801 font definitions for OMX/psycm.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 43.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 45.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 43.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 45.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 43.
-LaTeX Font Info:    Try loading font information for U+msa on input line 43.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 45.
+LaTeX Font Info:    Try loading font information for U+msa on input line 45.
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 43.
+LaTeX Font Info:    Try loading font information for U+msb on input line 45.
 
 (/usr/local/texlive/2013/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 43.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 45.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 50.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 52.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 55.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 57.
 
 Underfull \vbox (badness 6268) has occurred while \output is active []
 
@@ -619,127 +642,119 @@ Underfull \vbox (badness 6268) has occurred while \output is active []
 
 ]
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 108.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 110.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 108.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 110.
 
 
-LaTeX Warning: Citation `sutton1998reinforcement' undefined on input line 115.
+LaTeX Warning: Citation `sutton1998reinforcement' undefined on input line 117.
 
 <sim12.pdf, id=12, 578.16pt x 289.08pt>
 File: sim12.pdf Graphic file (type pdf)
  <use sim12.pdf>
-Package pdftex.def Info: sim12.pdf used on input line 129.
+Package pdftex.def Info: sim12.pdf used on input line 131.
 (pdftex.def)             Requested size: 578.15858pt x 289.07928pt.
 
-Overfull \hbox (16.25833pt too wide) in paragraph at lines 129--130
+Overfull \hbox (16.25833pt too wide) in paragraph at lines 131--132
 [][] 
+ []
+
+<image-grid.pdf, id=13, 722.7pt x 542.025pt>
+File: image-grid.pdf Graphic file (type pdf)
+ <use image-grid.pdf>
+Package pdftex.def Info: image-grid.pdf used on input line 140.
+(pdftex.def)             Requested size: 219.99861pt x 149.99605pt.
+
+<priors.pdf, id=14, 722.7pt x 433.62pt>
+File: priors.pdf Graphic file (type pdf)
+ <use priors.pdf>
+Package pdftex.def Info: priors.pdf used on input line 147.
+(pdftex.def)             Requested size: 219.99861pt x 150.00267pt.
+
+Overfull \hbox (1.90001pt too wide) in paragraph at lines 138--153
+[][]  [] 
  []
 
 [2 <./sim12.pdf>]
-Underfull \hbox (badness 1297) in paragraph at lines 142--143
+Underfull \hbox (badness 1297) in paragraph at lines 166--167
 []\OT1/ptm/m/n/10 We now con-sider a more com-plex af-fect space with
- []
-
-<priors.pdf, id=26, 578.16pt x 361.35pt>
-File: priors.pdf Graphic file (type pdf)
- <use priors.pdf>
-Package pdftex.def Info: priors.pdf used on input line 166.
-(pdftex.def)             Requested size: 578.15858pt x 361.34912pt.
-
-<biplot.pdf, id=27, 361.35pt x 361.35pt>
-File: biplot.pdf Graphic file (type pdf)
- <use biplot.pdf>
-Package pdftex.def Info: biplot.pdf used on input line 173.
-(pdftex.def)             Requested size: 361.34912pt x 361.34912pt.
-
-<affect-prior.pdf, id=28, 433.62pt x 252.945pt>
-File: affect-prior.pdf Graphic file (type pdf)
- <use affect-prior.pdf>
-Package pdftex.def Info: affect-prior.pdf used on input line 178.
-(pdftex.def)             Requested size: 433.61894pt x 252.94438pt.
-
-Overfull \hbox (7.22902pt too wide) in paragraph at lines 178--179
-[][] 
- []
-
-
-Overfull \hbox (1.90001pt too wide) in paragraph at lines 172--182
-[]$[]$ $[]$ 
- []
-
-[3 <./priors.pdf>]
-
-LaTeX Warning: Marginpar on page 4 moved.
-
-<valence.pdf, id=37, 519.9425pt x 361.35pt>
-File: valence.pdf Graphic file (type pdf)
- <use valence.pdf>
-Package pdftex.def Info: valence.pdf used on input line 211.
-(pdftex.def)             Requested size: 519.94124pt x 361.34912pt.
-
-<arousal.pdf, id=38, 519.9425pt x 361.35pt>
-File: arousal.pdf Graphic file (type pdf)
- <use arousal.pdf>
-Package pdftex.def Info: arousal.pdf used on input line 216.
-(pdftex.def)             Requested size: 519.94124pt x 361.34912pt.
-
-Overfull \hbox (1.90001pt too wide) in paragraph at lines 210--220
-[]$[]$ $[]$ 
  []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [4 <./biplot.pdf> <./affect-prior.pdf>]
+ [3 <./image-grid.pdf> <./priors.pdf>]
+
+LaTeX Warning: Reference `PCA' on page 4 undefined on input line 219.
+
+
+LaTeX Warning: Reference `affect-prior' on page 4 undefined on input line 222.
+
+
+LaTeX Warning: Marginpar on page 4 moved.
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+<valence.pdf, id=84, 519.9425pt x 361.35pt>
+File: valence.pdf Graphic file (type pdf)
+ <use valence.pdf>
+Package pdftex.def Info: valence.pdf used on input line 244.
+(pdftex.def)             Requested size: 519.94124pt x 361.34912pt.
+
+<arousal.pdf, id=85, 519.9425pt x 361.35pt>
+File: arousal.pdf Graphic file (type pdf)
+ <use arousal.pdf>
+Package pdftex.def Info: arousal.pdf used on input line 249.
+(pdftex.def)             Requested size: 519.94124pt x 361.34912pt.
+
+Overfull \hbox (1.90001pt too wide) in paragraph at lines 243--253
+[]$[]$ $[]$ 
+ []
+
+
+LaTeX Warning: Marginpar on page 4 moved.
+
+
+Underfull \vbox (badness 2065) has occurred while \output is active []
+
+ [4]
 
 LaTeX Warning: Marginpar on page 5 moved.
 
 
-Underfull \vbox (badness 4967) has occurred while \output is active []
+LaTeX Warning: Marginpar on page 5 moved.
 
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
+LaTeX Warning: Marginpar on page 5 moved.
 
- [5 <./valence.pdf> <./arousal.pdf>]
-
-LaTeX Warning: Marginpar on page 6 moved.
-
-
-LaTeX Warning: Marginpar on page 6 moved.
-
-
-LaTeX Warning: Marginpar on page 6 moved.
-
-
-LaTeX Warning: Marginpar on page 6 moved.
-
-<model-state.pdf, id=70, 578.16pt x 578.16pt>
+<model-state.pdf, id=89, 578.16pt x 578.16pt>
 File: model-state.pdf Graphic file (type pdf)
  <use model-state.pdf>
-Package pdftex.def Info: model-state.pdf used on input line 250.
+Package pdftex.def Info: model-state.pdf used on input line 283.
 (pdftex.def)             Requested size: 578.15858pt x 578.15858pt.
 
-Overfull \hbox (45.16803pt too wide) in paragraph at lines 250--251
+Overfull \hbox (45.16803pt too wide) in paragraph at lines 283--284
 [][] 
  []
 
-[6 <./model-state.pdf>] (./cogsci2015-irony.bbl [7]) [8
+[5 <./valence.pdf> <./arousal.pdf>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-]
-(./cogsci2015-irony.aux)
+ [6 <./model-state.pdf>] (./cogsci2015-irony.bbl) [7] (./cogsci2015-irony.aux)
 
 LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 12144 strings out of 493315
- 223281 string characters out of 6137904
- 292423 words of memory out of 5000000
- 15295 multiletter control sequences out of 15000+600000
+ 13248 strings out of 493315
+ 243170 string characters out of 6137904
+ 321215 words of memory out of 5000000
+ 16392 multiletter control sequences out of 15000+600000
  46287 words of font info for 98 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 63i,10n,80p,2211b,665s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 63i,10n,92p,2211b,665s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2013/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/te
 xlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texl
@@ -750,10 +765,10 @@ fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type
 1/urw/times/utmr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/time
 s/utmri8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/zapfchan/uzcm
 i8a.pfb>
-Output written on cogsci2015-irony.pdf (8 pages, 229958 bytes).
+Output written on cogsci2015-irony.pdf (7 pages, 9620995 bytes).
 PDF statistics:
- 117 PDF objects out of 1000 (max. 8388607)
- 83 compressed objects within 1 object stream
+ 148 PDF objects out of 1000 (max. 8388607)
+ 101 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 48 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 43 words of extra memory for PDF output out of 10000 (max. 10000000)
 

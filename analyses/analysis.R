@@ -468,3 +468,25 @@ ggplot(toy.2.state.priors, aes(x=state, y=probability, color=utterance)) +
   ylab("Probability") +
   scale_color_manual(values=c("grey", "black"), labels=c("Prior", '"The weather is terrible."'), name="") +
   ylim(c(0, 0.6))
+
+########
+# Plot in one figure
+########
+toy.1.state$affect <- "Valence"
+toy.2.state$affect <- "Valence and Arousal"
+toy.priors$affect <- "Prior"
+toy.model.comp <- rbind(toy.1.state, toy.2.state, toy.priors)
+toy.model.comp$state <- factor(toy.model.comp$state, levels=c("terrible", "bad", "neutral", "good", "amazing"))
+toy.model.comp$imageID <- factor(toy.model.comp$imageID, labels=c("Bad weather", "Amazing weather"))
+ggplot(toy.model.comp, aes(x=state, y=probability, color=affect)) +
+  geom_point() +
+  geom_line(aes(group=affect, linetype=affect)) +
+  facet_grid(.~imageID) +
+  theme_bw() +
+  xlab("Weather state") +
+  ylab("Probability") +
+  scale_color_manual(values=c("grey", "#8da0cb", "#d95f02"), name="") +
+  scale_linetype_manual(values=c(2, 1, 1), guide=FALSE) +
+  #scale_color_brewer(palette="Set2") +
+  theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank())
+

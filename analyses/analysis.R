@@ -214,6 +214,49 @@ affect.pca.long$value.corrected <- ifelse(affect.pca.long$variable == "Comp.1", 
 ###############
 # Split half
 ############### 
+
+# states
+splithalf.state <- data.frame(cors=NULL)
+t = 1
+while (t <= 1000) {
+  ii <- seq_len(nrow(interp))
+  ind1 <- sample(ii, nrow(interp) / 2) 
+  ind2 <- ii[!ii %in% ind1] 
+  interp.1 <- interp[ind1, ] 
+  interp.2 <- interp[ind2, ]
+  states.1 <- as.data.frame(prop.table(with(interp.1, table(imageID.utterance, stateRating)) + 1, margin=1))
+  states.2 <- as.data.frame(prop.table(with(interp.2, table(imageID.utterance, stateRating)) + 1, margin=1))
+  colnames(states.1)[3] <- "prob.1"
+  colnames(states.2)[3] <- "prob.2"
+  if (nrow(states.1) == nrow(states.2)) {
+    states.split <- join(states.1, states.2, by=c("imageID.utterance", "stateRating"))
+    t <- t+1
+    r <- with(states.split, cor(prob.1, prob.2))
+    this.frame <- data.frame(cors=r)
+    splithalf.state <- rbind(splithalf.state, this.frame)
+  }
+}
+
+splithalf.state <- subset(splithalf.state, !is.na(cors))
+
+splithalf.state$proph <- prophet(splithalf.state$cors, 2)
+
+summarySE(splithalf.state, measurevar=c("proph", groupvars=NULL))
+
+
+interp.states.raw <- with(interp, table(imageID.utterance, stateRating)) + 1
+interp.states <- as.data.frame(prop.table(interp.states.raw, margin = 1))
+interp.states <- cbind(interp.states,ldply(strsplit(as.character(interp.states$imageID.utterance),",")))
+colnames(interp.states)[2] <- "state"
+colnames(interp.states)[4] <- "imageID"
+colnames(interp.states)[5] <- "utterance"
+interp.states$utterance <- factor(interp.states$utterance, levels=c("terrible", "bad", "neutral", "good", "amazing"))
+interp.states$state <- factor(interp.states$state, levels=c("terrible", "bad", "neutral", "good", "amazing"))
+
+
+
+# affects
+
 splithalf.cors <- data.frame(valence=NULL, arousal=NULL)
 t = 1
 while (t <= 1000) {

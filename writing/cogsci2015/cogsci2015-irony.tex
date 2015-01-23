@@ -32,14 +32,8 @@
 
 \title{Let's talk (ironically) about the weather: A computational model of verbal irony}
  
-\author{{\large \bf Justine T. Kao
-(justinek@stanford.edu)} \\
-  Department of Psychology, 450 Serra Mall \\
-  Stanford, CA 94305 USA
-  \AND {\large \bf Noah D. Goodman (ngoodman@stanford.edu)} \\
-  Department of Psychology, 450 Serra Mall \\
-  Stanford, CA 94305 USA}
-
+  \author{{\large {\bf Justine T. Kao} (justinek@stanford.edu)}, {\large {\bf Noah D.~Goodman} (ngoodman@stanford.edu)}\\
+  Department of Psychology, Stanford University}
 
 \begin{document}
 
@@ -106,31 +100,31 @@ In this section, we describe the qRSA model and compare different spaces of affe
 %
 %We assume that the speaker's goal $g$ is to communicate  along any (or multiple) of the three dimensions of meaning, which results in $2^3 - 1 = 7$ possible goals (the speaker cannot communicate along none of the dimensions). For example, the speaker may want to communicate only the weather state $s$, or only her valence about $s$, or both.
 %We assume that the QUD may be about the actual weather, or the speaker's emotional valence towards the weather. 
-Following the qRSA model described in \citeA{kao2014nonliteral}, a speaker chooses an utterance that most effectively communicates information regarding the question under discussion (QUD) to a literal listener. We consider a meaning space consisting of the variables $s, a$, where $s$ is the state of the world, and $a$ represents the speaker's (potentially multidimensional) affect towards the state. \todo{JTK: notation?}
-We formalize a QUD as a projection from the full meaning space to the subset of interest to the speaker, which could be $s$ or any of the dimensions of $a$. 
+Following the qRSA model described in \citeA{kao2014nonliteral}, a speaker chooses an utterance that most effectively communicates information regarding the question under discussion (QUD) to a literal listener. We consider a meaning space consisting of the variables $s, A$, where $s$ is the state of the world, and $A$ represents the speaker's (potentially multidimensional) affect towards the state. \todo{JTK: notation?}
+We formalize a QUD as a projection from the full meaning space to the subset of interest to the speaker, which could be $s$ or any of the dimensions of $A$. 
 We define the speaker's utility as the negative surprisal of the true state under the listener's distribution given an utterance along the QUD dimension, leading to the following utility function\footnote{See \citeA{kao2014nonliteral} for details.}:
 %\todo[inline]{RDH: 1. maybe write out this utility function mathematically? 2. what is the meaning space? Is this just the world space? Or the set of features indexing the world space? 3. maybe explain what the subscripts mean? Using a subscript for $S_1$ sets it up for there to be an $S_2$ or $S_0$, which there isn't!}
 %
 \begin{equation}
-U(u | s, a, q) = \log \sum_{s', a'} \delta_{q(s, a)=q(s', a')} L_{literal}(s, a |u)
+U(u | s, A, q) = \log \sum_{s', A'} \delta_{q(s, A)=q(s', A')} L_{literal}(s, A |u)
 \end{equation}
 where $q$ is the QUD and $L_{literal}$ is the literal listener. 
 The speaker $S$ chooses an utterance according to a softmax decision rule \cite{sutton1998reinforcement}:
 \begin{equation}
-S(u | s, a, q) \propto e^{\lambda U(u | s, a, q)},
+S(u | s, A, q) \propto e^{\lambda U(u | s, A, q)},
 \end{equation}
 where $\lambda$ is an optimality parameter.
 %
 A pragmatic listener $L_{pragmatic}$ then takes into account prior knowledge and his internal model of the speaker to determine the state of the world as well as the speaker's affect. Because $L_{pragmatic}$ is uncertain about the QUD, he marginalizes over the possible QUDs under consideration:
 $$
-L_{pragmatic}(s, a | u) \propto P(s) P(a | s) \sum_{q}{P (q) S (u|s, a, q)}
+L_{pragmatic}(s, A | u) \propto P(s) P(A | s) \sum_{q}{P (q) S (u|s, A, q)}
 $$
 %
 The resulting distribution over world states and speaker affects is an \emph{interpretation} of the utterance. 
 
 \begin{figure}
-\scalebox{0.45}{\includegraphics{sim12}}
-\caption{Model interpretations of ``The weather is terrible" given different prior beliefs about the weather state and different affect dimensions. The left panel represents strong prior belief that the weather is \texttt{bad}; the right panel represents strong prior belief that the weather is \texttt{amazing}. Gray dotted lines indicate prior beliefs about weather states; blue lines indicate interpretations when reasoning only about the speaker's valence; orange lines indicate interpretations when reasoning about both valence and arousal. The model requires both valence and arousal to produce an ironic interpretation of the utterance given \texttt{amazing} weather.}
+\scalebox{0.43}{\includegraphics{sim12}}
+\caption{Model interpretations of ``The weather is terrible" given different prior beliefs about the weather state and affect dimensions. Gray dotted lines indicate prior beliefs about weather states given a weather context; blue lines indicate interpretations when reasoning only about the speaker's valence; orange lines indicate interpretations when reasoning about both valence and arousal.}
 \label{sim12}
 \end{figure}
 
@@ -165,30 +159,35 @@ Suppose there is strong prior belief that the weather state is \texttt{bad}; als
 
 We now consider a more complex affect space with two dimensions---valence and arousal---to observe its consequence on interpretation. Affective science identifies valence and arousal as two main dimensions underlying the slew of emotions that people experience (cite). For example, \emph{anger} is a negative valence and high arousal emotion, while \emph{contentment} is a positive valence and low arousal emotion (cite). We suggest that perhaps speakers leverage the arousal dimension to convey high arousal and positive affect (e.g. excitement) using utterances whose literal meanings are associated with high arousal and negative affect (e.g. ``The weather is terrible"). The orange lines in Figure~\ref{sim12} show simulations of the qRSA model with a two-dimensional affect space, valence and arousal. Given strong prior belief that the weather state is \texttt{bad}, the model interprets ``The weather is terrible" to mean that the weather is likely to be \texttt{bad}, producing a hyperbolic interpretation. However, given strong prior belief that the weather is \texttt{amazing}, the model now interprets ``The weather is terrible" ironically to mean that the weather is likely \texttt{amazing}. This is because with the enriched two-dimensional affect space, the pragmatic listener realizes that the speaker may be using ``terrible" to communicate high emotional arousal. These model simulations suggest that reasoning about a two-dimensional affect space motivated by emotion theory enables the model to appropriately interpret ironic utterances. 
 
-To produce an interpretation of an utterance in context, the model requires the following input values: (1) $P(s)$: the prior probability of a weather state $s$ given a weather context. (2) $P(a | s)$: the probability of affect $a$ (positive/negative valence and high/low arousal) given a weather state. (3) $P(q)$: the prior probability of a particular QUD (4) The speaker optimality parameter $\lambda$. We derived the values for (1) and (2) from Experiment 1 and fit (3) and (4) to the data from Experiment 2, which we describe below.
+To produce an interpretation of an utterance in context, the model requires the following input values: (1) $P(s)$: the prior probability of a weather state $s$ given a weather context. (2) $P(A | s)$: the probability of affect $A$ (positive/negative valence and high/low arousal) given a weather state. (3) $P(q)$: the prior probability of a particular QUD (4) The speaker optimality parameter $\lambda$. We derived the values for (1) and (2) from Experiment 1 and fit (3) and (4) to the data from Experiment 2, which we describe below.
 
 %\todo[inline]{RDH: maybe clarify the distinction between these spaces a bit -- is $a_2$ arousal + valence, while $a_1$ is just valence? It seems counterintuitive that adding \emph{arousal} would give rise to these effects... And not necessarily predicted by previous work?}
 %\todo[inline]{JTK: But do we refer to these affect dimensions as valence and arousal? Without first introducing these dimensions with the experiment, how should we talk about them in the model?}
 
 %\todo[inline]{let's try to compress this formal model description, given that it is the same as the PNAS paper. perhaps just say that we give a sketch, and the details can be found in the other paper?}
 
-\begin{figure*}
-\begin{subfigure}{0.5\textwidth}
-\includegraphics[width=180pt, height=170pt]{biplot.pdf}
-\caption{A biplot of the two principal components of the emotion ratings from Experiment 1. 
-%PC1 corresponds roughly to positive valence, with higher values for \emph{content, happy}, and \emph{excited} and lower values for \emph{sad, angry}, and \emph{disgusted}. PC2 corresponds roughly to high arousal, with higher values for \emph{excited} and {disgusted} than for \emph{content} and \emph{neutral}.
-}
-\label{PCA}
-\end{subfigure}
-\hfill
-\begin{subfigure}{0.5\textwidth}
+%\begin{figure*}
+%\begin{subfigure}{0.5\textwidth}
+%\includegraphics[width=180pt, height=170pt]{biplot.pdf}
+%\caption{A biplot of the two principal components of the emotion ratings from Experiment 1. 
+%%PC1 corresponds roughly to positive valence, with higher values for \emph{content, happy}, and \emph{excited} and lower values for \emph{sad, angry}, and \emph{disgusted}. PC2 corresponds roughly to high arousal, with higher values for \emph{excited} and {disgusted} than for \emph{content} and \emph{neutral}.
+%}
+%\label{PCA}
+%\end{subfigure}
+%\hfill
+%\begin{subfigure}{0.5\textwidth}
+%\includegraphics[width=220pt, height=150pt]{affect-prior.pdf}
+%\caption{The average probabilities of positive valence and high arousal associated with each weather state. Error bars are $95\%$ confidence intervals.}
+%\label{affect-prior}
+%\end{subfigure}
+%\caption{}
+%\end{figure*}
+
+\begin{figure}
 \includegraphics[width=220pt, height=150pt]{affect-prior.pdf}
 \caption{The average probabilities of positive valence and high arousal associated with each weather state. Error bars are $95\%$ confidence intervals.}
 \label{affect-prior}
-\end{subfigure}
-\caption{}
-\end{figure*}
-\todo{JTK: should we include these figures?}
+\end{figure}
 
 \section{Behavioral Experiments}
 To quantitatively test our model with the enriched affect space described above, we conducted the following two experiments. In Experiment 1, we measured the prior beliefs over weather states for various weather contexts. We also measured various emotions associated with different weather contexts in order to empirically extract the affective dimensions relevant to this domain. In Experiment 2, we collected people's ratings of how a speaker perceives and feels about the weather given what she says (e.g. ``The weather is terrible!" when the context clearly depicts sunny weather).
@@ -199,23 +198,10 @@ To quantitatively test our model with the enriched affect space described above,
 
 %We conducted the following two experiments to elicit people's judgements of potentially ironic utterances and their relationship to context and background knowledge. In Experiment 1, we collected participants' ratings of various weather contexts as well as how a person (e.g. Ann) feels about the weather. The weather ratings measure knowledge of the current weather state. The affect ratings measure how people generally feel about different weather states, which captures people's intuitive theory of attitudes towards the weather. In Experiment 2, we collected people's ratings of Ann's judgment of and feelings towards the weather given what she says about it, for example, ``The weather is terrible!" when the weather depicted is clearly sunny and nice.
 
+
 \subsection{Experiment 1: Prior elicitation}
 \subsubsection{Materials and methods}
-We selected nine images from Google Images that depict the weather (Figure~\ref{images}). To cover a range of weather states, three of the images were of sunny weather, three of cloudy weather, and three of rainy or snowy weather. We refer to these images as weather contexts.
-
-
-%\begin{figure}[t]
-%\scalebox{0.3}{\includegraphics{image-grid.pdf}}
-%\caption{The nine weather images shown to participants.}
-%\label{priors}
-%\end{figure}
-%
-%\begin{figure}[t]
-%\scalebox{0.4}{\includegraphics{priors.pdf}}
-%\caption{The proportion of participants who rated each of the weather contexts ($w_i$) as each weather state. Each panel represents a weather context; each line represents the distribution over weather states for a weather context prior to any linguistic input. For example, the vast majority of participants rated $w_1$ as \emph{amazing}, suggesting that the prior probability of someone believing $w_1$ to be \emph{amazing} is extremely high.}
-%\label{priors}
-%\end{figure}
-
+We selected nine images from Google Images that depict the weather. To cover a range of weather states, three of the images were of sunny weather, three of cloudy weather, and three of rainy or snowy weather. We refer to these images as weather contexts. Figure~\ref{images} shows these nine images.
 $49$ native English speakers with IP addresses in the United States were recruited on Amazon's Mechanical Turk. Each participant saw all nine images in random order. In each trial, participants were told that a person (e.g. Ann) looks out the window and sees the view depicted by the image. They then indicated how Ann would rate the weather using a labeled 5-point Likert scale, ranging from \texttt{terrible}, \texttt{bad}, \texttt{neutral}, \texttt{good}, to \texttt{amazing}. Finally, participants used slider bars to rate how likely Ann is to feel each of the following seven emotions about the weather: \emph{excited}, \emph{happy}, \emph{content}, \emph{neutral}, \emph{sad}, \emph{disgusted}, and \emph{angry}. \todo{why these seven? basic emotions according to someone?} The order of the emotions was randomized for each participant but remained consistent across trials for the same participant. The end points of the slider bars were labeled as ``Impossible" and ``Absolutely certain." A link to the experiment is here: \url{http://stanford.edu/~justinek/irony_exp/priors/priors.html}
   
  
@@ -223,7 +209,7 @@ $49$ native English speakers with IP addresses in the United States were recruit
 
 For each of the nine weather contexts, we obtained the number of participants who gave each of the weather state ratings and performed add-one Laplace smoothing on the counts. This allowed us to compute a smoothed prior distribution over weather states given each context. From Figure~\ref{priors}, we see that the sunny and positive weather contexts were more likely to be rated as \texttt{amazing}, while the negative weather contexts were more likely to be rated as \texttt{bad} or \texttt{terrible}.  %\todo[inline]{RDH: obviously, need some way of identifying what the different rows and columns of the grid mean}
 
-To examine participants' ratings of the affects associated with each context, we first performed Principal Component Analysis (PCA) on the seven emotion category ratings. This allowed us to compress the ratings onto a lower-dimensional space and reveal the main affective dimensions that are important in this domain. We found that the first two principal components accounted for $69.14\%$ and $13.86\%$ of the variance in the data (see Figure ~\ref{PCA}). In addition, they correspond roughly to the dimensions of emotional valence (positive or negative) and emotional arousal (high or low), respectively, which are consistent with theories of emotion in affective science (cite). 
+To examine participants' ratings of the affects associated with each context, we first performed Principal Component Analysis (PCA) on the seven emotion category ratings. This allowed us to compress the ratings onto a lower-dimensional space and reveal the main affective dimensions that are important in this domain. We found that the first two principal components accounted for $69.14\%$ and $13.86\%$ of the variance in the data. In addition, these components corresponded roughly to the dimensions of emotional valence (positive or negative) and emotional arousal (high or low). 
 \todo{we should do a free response version of this task (``Ann feels ..... about the weather.''), before and after a statement, at some point to see if we are missing any affects... probably not needed for cogsci.}
 To approximate the probabilities of Ann feeling positive or negative affect and high or low arousal given different weather states, we converted the PCA scores into probabilities as follows. We first normalized the scores in each dimension to have zero mean and unit variance. Treating these normalized scores as quantiles of a standard normal distribution, we used the cumulative distribution function to convert the normalized scores into values between $0$ and $1$. Figure ~\ref{affect-prior} shows the probability of positive valence and high arousal given each weather state. 
 
@@ -239,30 +225,6 @@ To approximate the probabilities of Ann feeling positive or negative affect and 
 %
 %\end{figure}
 
-\subsection{Experiment 2: Irony understanding}
-In Experiment 1, we obtained the prior distribution over weather states for each weather context as well as the prior probabilities of positive valence and high arousal given each weather state. This gives us the necessary components to generate interpretations of utterances from our model. Here we describe an experiment that elicits people's interpretations of utterances, which we then use to evaluate model predictions. 
-
-
-\subsubsection{Materials and methods}
-$59$ native English speakers with IP addresses in the United States were recruited on Amazon's Mechanical Turk. Each participant saw all nine images from Figure~\ref{images} in random order. In each trial, participants were told that a person (e.g. Ann) and her friend are in a room looking out the window together and see the view depicted by the image. Ann says, ``The weather is \underline{\hspace{1cm}}!" where the adjective is randomly selected at each trial from the following set: ``terrible," ``bad," ``ok," ``good," and ``amazing." Participants first rated how likely it is that Ann's statement is ironic using a slider with end points labeled ``Definitely NOT ironic" and ``Definitely ironic." They then indicated how Ann would actually rate the weather using a labeled 5-point Likert scale, ranging from \emph{terrible}, \emph{bad}, \emph{neutral}, \emph{good}, to \emph{amazing}. Finally, participants used sliders to rate how likely it is that Ann feels each of seven emotions about the weather. A link to the experiment is here: \url{http://stanford.edu/~justinek/irony_exp/interpretation/interpretation_askIrony.html}
-
-\subsubsection{Results}
-We first examined participants' irony ratings for each of the weather context and utterance pairs. We found a basic irony effect, where utterances whose polarities are inconsistent with the polarity of the weather context are rated as significantly more ironic than utterances whose polarities are consistent with the weather context (STATS) (Figure XX?). For example, ``The weather is terrible" (a negative utterance) is rated as more ironic in weather context 1 (positive context) than in weather context 7 (negative context). A linear regression model with the polarity of the utterance, the polarity of the weather context, and their interaction as predictors of irony ratings produced an adjusted R-squared of 0.91, capturing most of the variance in the data. This suggests that participants' lay judgments of irony align with its basic definition: utterances whose apparent meanings are opposite in polarity to the speaker's intended meaning.
-
-%We coded ``terrible" and ``bad" as \emph{negative} utterances, ``ok" as a \emph{neutral} utterance, and ``good" and ``amazing" as \emph{positive} utterances. We also coded each image as \emph{positive, neutral}, or \emph{negative} based on the modal weather state rating from Experiment 1 (e.g. $w_1$ is \emph{positive}, $w_6$ is \emph{neutral}, and $w7$ is \emph{negative}).
-
-%\todo[inline]{RDH: I'm getting confused about utterance polarity vs. weather state polarity (possibly since they take on the same values), and this confusion compounded over the next paragraphs where you present more measures. Maybe lay this out in a way that distinguishes them better? Even putting ``utterance polarity'' and ``context polarity'' in bold font or something might help.}
-
-Given the fact that participants can identify verbal irony based on its inconsistency with context, how do they then use context to determine the speaker's intended meaning? We examined participants' interpretations of utterances given contexts. For each of the $45$ weather context (9) $\times$ utterance (5) pairs, we obtained the number of participants who gave each of the five weather state ratings (\texttt{terrible, bad, neutral, good, amazing}). We performed add-one Laplace smoothing on the counts to obtain a smoothed distribution over weather states given each context and utterance. The dark blue lines in Figure~\ref{model-state} show these distributions of ratings. We see that participants produce ironic interpretations of utterances, such that the weather is most likely to be \texttt{amazing} given that the speaker said ``The weather is terrible" in weather context 1. Participants also produce hyperbolic interpretations, such that the weather is most likely to be \texttt{bad} given that the speaker said ``The weather is terrible" in weather context 7. This suggests that people are highly sensitive to context when interpreting utterances, and use it both to determine when an utterance is not meant literally and to appropriately recover the intended meaning. 
-
-%We call this distribution the \emph{interpreted meaning} of an utterance in context. We found that participants often rated the speaker (e.g. Ann) as judging the actual weather state to be different from what she described in her utterance, suggesting that participants interpreted these utterances non-literally. To further examine the relationship between literal meaning, interpreted meaning, and judgements of irony, we computed the Kullback-Leibler divergence between the literal interpretation of the utterance and the distribution over weather states given the context and utterance. 
-%\todo{what is the literal distribution? if it's delta on the word corresponding state, then isn't KL just the interpretation log-prob of the state?}
-%\todo[inline]{RDH: I don't quite understand what the KL divergence is measuring in the next paragraph}
-%
-%We found that adding the KL divergence measure to the linear regression model captured significantly more variance in the irony ratings, with an R-squared of 0.93 (more STATS). 
-%\todo{this doesn't seem like the right analysis.... and a 1\% gain is pretty minimal to fuss about.} 
-
-Finally, we examined participants' inferences about the speaker's affect given utterances in context. We used the loadings from the PCA on emotion ratings from Experiment 1 to predict the projected values of emotion ratings in Experiment 2. We then performed the same transformations on the scores to convert them into values between $0$ and $1$. 
 \begin{figure}[t]
 \scalebox{0.38}{\includegraphics{model-state.pdf}}
 \caption{Model's and participants' inferences about the weather state (x-axis) given a weather context (row) and an utterance (column). Each panel represents interpretations of an utterance in a weather context. The solid lines are participants' ratings; the dotted lines are model's posterior distributions over weather states.}
@@ -288,47 +250,95 @@ Finally, we examined participants' inferences about the speaker's affect given u
 \end{subfigure}
 \end{figure*}
 
-%Figure ~\ref{valence} shows the average probability of positive valence given a weather context and an utterance. The dotted gray lines are the average probabilities of positive valence associated with each weather context without any linguistic input, taken from Experiment 1. We see that for the \emph{positive} weather contexts ($w_1, w_2, w_3$), the speaker is interpreted as more likely expressing positive valence given the extremely negative utterance ``terrible" than given the less negative utterance ``bad." On the other hand, for the \emph{negative} weather contexts ($w_7, w_8, w_9$), the speaker is interpreted as less likely expressing positive valence given the extremely positive utterance ``amazing than the less positive utterance ``good" (STATS). This suggests that extreme utterances that are inconsistent with the valence of the context are more likely to express an opposite affect than its literal meaning (MAKE THIS CLEARER).
+
+\subsection{Experiment 2: Irony understanding}
+In Experiment 1, we obtained the prior distribution over weather states for each weather context as well as the prior probabilities of positive valence and high arousal given each weather state. This gave us the necessary components to generate interpretations of utterances from our model. Here we describe an experiment that elicits people's interpretations of utterances, which we then use to evaluate model predictions. 
+
+
+\subsubsection{Materials and methods}
+$59$ native English speakers with IP addresses in the United States were recruited on Amazon's Mechanical Turk. Each participant saw all nine images from Figure~\ref{images} in random order. In each trial, participants were told that a person (e.g. Ann) and her friend are in a room looking out the window together and see the view depicted by the image. Ann says, ``The weather is \underline{\hspace{1cm}}!" where the adjective is randomly selected at each trial from the following set: ``terrible," ``bad," ``ok," ``good," and ``amazing." Participants first rated how likely it is that Ann's statement is ironic using a slider with end points labeled ``Definitely NOT ironic" and ``Definitely ironic." They then indicated how Ann would actually rate the weather using a labeled 5-point Likert scale, ranging from \emph{terrible}, \emph{bad}, \emph{neutral}, \emph{good}, to \emph{amazing}. Finally, participants used sliders to rate how likely it is that Ann feels each of seven emotions about the weather. A link to the experiment is here: \url{http://stanford.edu/~justinek/irony_exp/interpretation/interpretation_askIrony.html}
+
+\subsubsection{Results}
+We first examined participants' irony ratings for each of the weather context and utterance pairs. We found a basic irony effect, where utterances whose polarities are inconsistent with the polarity of the weather context are rated as significantly more ironic than utterances whose polarities are consistent with the weather context (STATS) (Figure XX?). For example, ``The weather is terrible" (a negative utterance) is rated as more ironic in weather context 1 (positive context) than in weather context 7 (negative context). A linear regression model with the polarity of the utterance, the polarity of the weather context, and their interaction as predictors of irony ratings produced an adjusted R-squared of 0.91, capturing most of the variance in the data. This suggests that participants' lay judgments of irony align with its basic definition: utterances whose apparent meanings are opposite in polarity to the speaker's intended meaning.
+
+%We coded ``terrible" and ``bad" as \emph{negative} utterances, ``ok" as a \emph{neutral} utterance, and ``good" and ``amazing" as \emph{positive} utterances. We also coded each image as \emph{positive, neutral}, or \emph{negative} based on the modal weather state rating from Experiment 1 (e.g. $w_1$ is \emph{positive}, $w_6$ is \emph{neutral}, and $w7$ is \emph{negative}).
+
+%\todo[inline]{RDH: I'm getting confused about utterance polarity vs. weather state polarity (possibly since they take on the same values), and this confusion compounded over the next paragraphs where you present more measures. Maybe lay this out in a way that distinguishes them better? Even putting ``utterance polarity'' and ``context polarity'' in bold font or something might help.}
+
+Given the fact that participants can identify verbal irony based on its inconsistency with context, how do they then use context to determine the speaker's intended meaning? We examined participants' interpretations of utterances given contexts. For each of the $45$ weather context (9) $\times$ utterance (5) pairs, we obtained the number of participants who gave each of the five weather state ratings (\texttt{terrible, bad, neutral, good, amazing}). We performed add-one Laplace smoothing on the counts to obtain a smoothed distribution over weather states given each context and utterance. The solid lines in Figure~\ref{model-state} show these distributions of ratings. We see that participants produce ironic interpretations of utterances, such that the weather is most likely to be \texttt{amazing} given that the speaker said ``The weather is terrible" in weather context 1. Participants also produce hyperbolic interpretations, such that the weather is most likely to be \texttt{bad} given that the speaker said ``The weather is terrible" in weather context 7. This suggests that people are highly sensitive to context when interpreting utterances, and use it both to determine when an utterance is not meant literally and to appropriately recover the intended meaning. 
+
+Finally, we examine participants' inferences about the speaker's affect given utterances in context. We used the loadings from the PCA on emotion ratings from Experiment 1 to project the emotion ratings from Experiment 2 onto the same dimensions. We then normalized and used the cumulative distribution function to convert the scores into values between $0$ and $1$. Figure ~\ref{valence} shows the average probability of \emph{positive valence} given an utterance in a weather context. The dotted gray lines are the average probabilities of positive valence associated with each weather context without any linguistic input, taken from Experiment 1. 
+%
+%We see that for the \emph{positive} weather contexts, the speaker is interpreted as more likely expressing positive valence given the extremely negative utterance ``terrible" than given the less negative utterance ``bad." On the other hand, for the \emph{negative} weather contexts, the speaker is interpreted as less likely expressing positive valence given the extremely positive utterance ``amazing" than the less positive utterance ``good" (STATS). This suggests that extreme utterances that are inconsistent with the valence of the context are more likely to express an opposite affect than its literal meaning.
 %\todo[inline]{maybe you could use different names for the weather contexts? Like $\mathcal{W}_{neg}, \mathcal{W}_{neut}, \mathcal{W}_{pos}$, and then refer to $w_i \in \mathcal{W}_{neg}$ and so on.}
 %
-%Figure ~\ref{arousal} shows the average probability of high arousal given a weather context and an utterance. The dotted gray lines are the average probabilities of high arousal associated with each weather context without any linguistic input, taken from Experiment 1. We see that regardless of the weather context, more extreme utterances are more likely to express high arousal (MAKE THIS CLEARER). (Generally, just say that the utterance shifts interpreted valence and arousal away from the baseline). 
+Figure ~\ref{arousal} shows the average probability of \emph{high arousal} given an utterance in a weather context. The dotted gray lines are the average probabilities of high arousal associated with each weather context without any linguistic input, taken from Experiment 1. 
+%We see that regardless of the weather context, more extreme utterances (e.g. ``terrible" and ``amazing") are more likely to communicate high arousal.
+\todo[inline]{JTK: figure out data take-home point here}
 %\todo{it's interesting that ``terrible'' seems to have suppressed arousal compared to ``bad''. any thoughts about why?}
 
 
+%We call this distribution the \emph{interpreted meaning} of an utterance in context. We found that participants often rated the speaker (e.g. Ann) as judging the actual weather state to be different from what she described in her utterance, suggesting that participants interpreted these utterances non-literally. To further examine the relationship between literal meaning, interpreted meaning, and judgements of irony, we computed the Kullback-Leibler divergence between the literal interpretation of the utterance and the distribution over weather states given the context and utterance. 
+%\todo{what is the literal distribution? if it's delta on the word corresponding state, then isn't KL just the interpretation log-prob of the state?}
+%\todo[inline]{RDH: I don't quite understand what the KL divergence is measuring in the next paragraph}
+%
+%We found that adding the KL divergence measure to the linear regression model captured significantly more variance in the irony ratings, with an R-squared of 0.93 (more STATS). 
+%\todo{this doesn't seem like the right analysis.... and a 1\% gain is pretty minimal to fuss about.} 
+
+
 \section{Model Evaluation}
-In this section, we evaluate the model's performance using results from our behavioral experiments. 
+We now evaluate the model's performance against these behavioral results. From Experiment 1, we obtained the prior probability of a weather state given a context as well as the probability of affect given a weather state. After fitting four free parameters to maximize correlation with data from Experiment 2 ($\lambda=1$, $P(q_{state}) = 0.2$, $P(q_{valence}) = 0.3$, $P(q_{arousal}) = 0.4$), 
+the model produced an interpretation for each of the $45$ utterance and weather context pairs. Each interpretation is a joint posterior distribution $P(s, A | u)$, where the affect A can be further broken down into valence and arousal dimensions. We will examine the model's performance on each of these state and affect dimensions by marginalizing over the other dimensions.
 
-(TODO: add actual fit values in a clear manner: $\lambda=1$, p(state goal) = 0.2, p(valence goal) = 0.3, p(arousal goal)=0.4)
-
-The model produced an interpretation for each of the $45$ utterance $\times$ weather context pairs. Each interpretation is a joint posterior distribution $P(s, v, a | u)$. We first examine the model's performance on recovering the actual weather state $P(s | u)$ by marginalizing over $v$ and $a$. Figure ~\ref{model-state} shows participants' and the model's interpretation of the actual weather state given an utterance and a weather context. We see that the model predictions closely match humans' interpretations, with a correlation of $0.86$ (show scatter plot?). 
+%We first examine the model's performance on recovering the actual weather state. 
+Figure ~\ref{model-state} shows participants' and the model's inferences about the actual weather state given an utterance and a weather context. The model predictions closely match humans' interpretations, with a correlation of $0.86$ (Figure ~\ref{scatter}). 
 \todo{is the model using the prior too strongly here?}
-Next, we examine the model's performance on recovering the speaker's valence by marginalizing over $s$ and $a$. The model's prediction for emotional valence match humans' extremely closely, with a correlation of $0.96$.
-\todo{note that this is the case even when interpreted valence mismatches the prior expected valence given literal meaning -- i.e. the model captures irony in valence.}
-Finally, we examine the model's performance on recovering the speaker's emotional arousal by marginalizing over $s$ and $v$. The model's prediction for emotional arousal match humans' with a correlation of $0.66$ (TODO: add split half; figures???). 
+Figure ~\ref{valence} shows participants' and the models' inference about the speaker's valence given an utterance and a weather context. From the tight correspondence between model and human interpretations of valence ($r=0.96$), we see that the model is able to incorporate the valence associated with the utterance's literal meaning (e.g. ``The weather is terrible") and the valence associated with the weather context (e.g. weather context 1) to interpret the probability of the speaker feeling positive valence. In other words, the model infers the appropriate valence even when it is inconsistent with the valence of the utterance's literal meaning, thus capturing the essence of irony.  
+%\todo{note that this is the case even when interpreted valence mismatches the prior expected valence given literal meaning -- i.e. the model captures irony in valence.}
+Finally, Figure~\ref{arousal} shows participants' and the model's inferences about the speaker's arousal.  The model's prediction for emotional arousal match humans' with a correlation of $0.66$.
 \todo{why is this correlation low? is it because of the terrible-bad inversion i asked about above?}
-This suggests that the model is able to incorporate background knowledge and reasoning about multiple affective goals to produce the appropriate ironic interpretations as well as the associated affects. 
+These results suggest that the model is able to incorporate background knowledge and reasoning about multiple affective goals to produce the appropriate ironic interpretations as well as the associated affects. 
 \todo{it would be nice to have some more direct analysis of irony -- that when state/valence mismatches that expected from literal meaning the model can predict it. this may also be a good place to come back to the explicit irony judgements: something like probability the interpretation is on the opposite side of the prior mean? or something more general that would also apply to ironic propositions? oh.. we should totally say something in the discussion about ironic propositions and other non-scalar irony.}
 
-
 \section{Discussion}
-\todo[inline]{summary of take-home point}
-With our behavioral experiments, we presented results showing the fine-grained effects of background knowledge on people's interpretations of ironic utterances, and identified the main affective dimensions that are conveyed by irony. In addition, we presented a computational model that predicts peoples' interpretations of ironic utterances using general communicative principles. In effect, the model is able to tell when an utterance is meant to be literal or ironic, and when meant to be ironic, what types of affect the speaker intends to convey. By reasoning about the speaker's communicative goals, the model goes beyond the literal meaning of an utterance to infer the actual state of the world. In addition, it recovers important aspects of the speaker's affect about the situation and captures the social and affective uses of irony. Together, these results suggest that basic principles of communication---background knowledge and reasoning about informativeness with respect to the speaker's communicative goals---may be an important driver of irony understanding.
+%\todo[inline]{summary of take-home point}
+In this paper, we explored the consequences of expanding the space of affect considered in Rational Speech Act models to account for verbal irony. We showed that by making a minimal extension to \citeA{kao2014nonliteral}'s hyperbole model, we can capture people's fine-grained interpretations of ironic utterances. The similarities between these models suggest that understanding hyperbole and irony requires the same underlying principles of communication, which aligns with other informal accounts of the pragmatics of nonliteral language understanding (cite).  
 
-\todo[inline]{the above paragraph is murky. the below maybe gets more at our take-away point: the approach in kao2914 extends immediately to additional non-literal uses, by more carefully considering the space of covert meanings that may be conveyed. in general re-work this conclusion to be sharper, and clearer about the main points.}
+While we present evidence of shared communicative principles that unify irony and other forms of nonliteral language, there remain important qualities of verbal irony that may be unique. For example, the echoic mention theory of irony claims that speakers often use verbal irony to remind the listener of previous utterances that turned out to be false or irrelevant, or of positive norms that were explicitly violated \cite{sperber1981irony, jorgensen1984test}. On the other hand, pretense theory argues that when a speaker produces an ironic utterance, she is not genuinely making the utterance, but only pretending to be someone who would make such an utterance \cite{clark1984pretense}. 
+%In this view, recognizing the pretense is central to interpreting verbal irony.
+%The latter point in particular has interesting implications on the experiments we present here. While we asked participants to rate the speaker's affect given her utterance, it may be the case that the speaker is only \emph{pretending} to  
+\todo{Say something about terrible?} 
+While our model so far does not explicitly incorporate elements of echoic mention or pretense, it is able to capture many of the main characteristics of verbal irony. By addressing these additional components in future research, we hope to further improve our model's performance and enrich its understanding of the social aspects of irony. 
 
-\todo[inline]{connection to informal theories}
+%\todo[inline]{connection to NLP}
+In addition to shedding light on the communicative principles underlying irony understanding, our work also has interesting connections to natural language processing. Given the prevalence of irony in natural language, many researchers aim to automatically detect sarcasm in large bodies of texts in order to recover the correct sentiment from an ostensibly positive or negative utterance (e.g. ``I was overjoyed to pay $\$30$ for an overcooked steak") \cite{davidov2010semi, filatova2012irony}. A critical insight that emerged from these efforts is that irony detection requires information far beyond surface linguistic cues, often calling upon a deep understanding of context and common knowledge between speaker and listener that computers currently lack \cite{gonzalez2011identifying, wallacehumans}. By integrating background knowledge and linguistic meaning in a principled manner, we present a formal model that predicts ironic interpretations in a way that is highly sensitive to context and common ground. 
 
-Since Grice's original proposal, there have been two competing theories of irony understanding. The echoic mention theory \cite{sperber1981irony, jorgensen1984test} proposes that ironic utterances are intended to remind the listener of a previous utterance that turned out to be false or irrelevant. The affective subtext of irony then arises from the contrast between what was said earlier and what is actually the case. On the other hand, pretense theory \cite{clark1984pretense} argues that when a speaker produces an ironic utterance, she is not genuinely making the utterance, but only pretending to be someone who would make such an utterance. Understanding an ironic statement then involves recognizing the pretense as well as the preposterousness of the person being enacted. (could make this whole part shorter) 
+We believe that our experimental paradigm and modeling framework lend itself well to a more detailed and precise account of irony understanding. Given the prevalence of irony in everyday language and the social functions it serves, it would be \emph{amazing} (literally) to understand people's ability to use and interpret utterances that mean the opposite of what they say. 
 
-\todo[inline]{connection to NLP}
-Given the prevalence of irony in natural language, many researchers in natural language processing aim to automatically detect sarcasm in large bodies of texts in order to recover the correct sentiment from an ostensibly positive or negative utterance (e.g. ``I was overjoyed to pay $\$30$ for an overcooked steak") \cite{davidov2010semi, filatova2012irony}. A critical insight that emerges from these approaches is that irony detection requires information far beyond surface linguistic cues, often calling upon a deep understanding of context and common knowledge between speaker and listener, which computers currently lack. Indeed, without sufficient contextual information, even human beings exhibit poor judgment of verbal irony \cite{gonzalez2011identifying, wallacehumans}.
+%say the opposite of what they mean.
+%
+%Our experimental paradigm and modeling framework lends itself well to a more detailed and precise account of irony understanding. For example, what are the range of social and affective meanings involved in irony? How do people use irony to signal social closeness with the listener?
+%
 
-\todo[inline]{relationship to hyperbole and what that says about figurative language understanding more generally}
-It is important to note that the model we present here is only minimally different from the hyperbole model described earlier in the paper \cite{kao2014nonliteral}. In fact, the only difference is that instead of considering a single affect dimension (negative valence), this extended model takes seriously the circumplex model of affect (cite), which identifies valence and arousal as two main dimensions underlying the slew of emotions people experience. The similarities between these two models suggests that hyperbole and irony may be understood using similar principles of communication. A deeper point we wish to make with this work is that communication in general, and nonliteral language understanding in particular, relies on reasoning about the speaker's communicative goals during interpretation. Furthermore, these goals are often social or affective in nature, and speakers are adept at harnessing shared background knowledge with the listener to convey rich affective meanings without explicitly stating them. 
 
-\todo[inline]{future directions and conclusion}
-Our experimental paradigm and modeling framework lends itself well to a more detailed and precise account of irony understanding. For example, what are the range of social and affective meanings involved in irony understanding? We identified emotional valence and arousal in these experiments, but there may be others ....(attitudes? opinions? affect? social closeness?)
-(TODO: finish) What are the social functions of irony? Irony is often used to signal social closeness with the listener, presumably because it expresses the speaker's assumption that she and the listener share a great deal of common ground (cite). Given an ambiguous utterance that could be interpreted either literally or ironically, if a speaker supplements the utterance with prosodic cues to signal that it is meant ironically, will listeners judge the speaker as being closer to them? Can our model more directly  test the predictions of the echoic mention and pretense theories of irony and help distinguish between them? Given the prevalence of irony in everyday language, we believe it would be \emph{amazing} (literally) to address these questions in future research and understand irony's mysterious ability to be interpreted as the opposite of what it is.
+%. Indeed, without sufficient contextual information, even human beings exhibit poor judgment of verbal irony 
+
+%\todo[inline]{future directions and conclusion}
+%Our experimental paradigm and modeling framework lends itself well to a more detailed and precise account of irony understanding. For example, what are the range of social and affective meanings involved in irony understanding? We identified emotional valence and arousal in these experiments, but there may be others ....(attitudes? opinions? affect? social closeness?)
+%(TODO: finish) What are the social functions of irony? Irony is often used to signal social closeness with the listener, presumably because it expresses the speaker's assumption that she and the listener share a great deal of common ground (cite). Given an ambiguous utterance that could be interpreted either literally or ironically, if a speaker supplements the utterance with prosodic cues to signal that it is meant ironically, will listeners judge the speaker as being closer to them? Can our model more directly  test the predictions of the echoic mention and pretense theories of irony and help distinguish between them? 
+
+
+
+
+%A deeper point we wish to make with this work is that communication in general, and nonliteral language understanding in particular, relies on reasoning about the speaker's communicative goals during interpretation. Furthermore, these goals are often social or affective in nature, and speakers are adept at harnessing shared background knowledge with the listener to convey rich affective meanings without explicitly stating them. 
+%
+%\todo[inline]{relationship to hyperbole and what that says about figurative language understanding more generally}
+
+
+%With our behavioral experiments, we presented results showing the fine-grained effects of background knowledge on people's interpretations of ironic utterances, and identified the main affective dimensions that are conveyed by irony. In addition, we presented a computational model that predicts peoples' interpretations of ironic utterances using general communicative principles. In effect, the model is able to tell when an utterance is meant to be literal or ironic, and when meant to be ironic, what types of affect the speaker intends to convey. By reasoning about the speaker's communicative goals, the model goes beyond the literal meaning of an utterance to infer the actual state of the world. In addition, it recovers important aspects of the speaker's affect about the situation and captures the social and affective uses of irony. Together, these results suggest that basic principles of communication---background knowledge and reasoning about informativeness with respect to the speaker's communicative goals---may be an important driver of irony understanding.
+
+%\todo[inline]{the above paragraph is murky. the below maybe gets more at our take-away point: the approach in kao2914 extends immediately to additional non-literal uses, by more carefully considering the space of covert meanings that may be conveyed. in general re-work this conclusion to be sharper, and clearer about the main points.}
+
 
 %\todo[inline]{RDH: AMAZING discussion (but seriously, I think all the pieces are here, and you make a lot of neat connections). Overall, I'm wondering if there's a way to reduce the number of figures? 8 figures seems like a lot for a 6 page paper, and I'm worried you won't have space, especially if you want to add more figures for the results and model evaluation section (I counted three ``Figure XX'' placeholders). I didn't get much from 6 and 7, but maybe I just didn't understand the result they were showing. And maybe Figure 4 isn't needed, since it depicts the usual `valence/arousal' PCA space? Fig 1 and 2 could be combined into a multicolumn fig... }
 

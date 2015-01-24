@@ -219,11 +219,12 @@ affect.pca.long$value.corrected <- ifelse(affect.pca.long$variable == "Comp.1", 
 splithalf.state <- data.frame(cors=NULL)
 t = 1
 while (t <= 1000) {
-  ii <- seq_len(nrow(interp))
-  ind1 <- sample(ii, nrow(interp) / 2) 
+  nWorkers <- length(unique(interp$workerID))
+  ii <- seq_len(nWorkers)
+  ind1 <- sample(ii, nWorkers / 2) 
   ind2 <- ii[!ii %in% ind1] 
-  interp.1 <- interp[ind1, ] 
-  interp.2 <- interp[ind2, ]
+  interp.1 <- subset(interp, workerID %in% ind1)
+  interp.2 <- subset(interp, workerID %in% ind2)
   states.1 <- as.data.frame(prop.table(with(interp.1, table(imageID.utterance, stateRating)) + 1, margin=1))
   states.2 <- as.data.frame(prop.table(with(interp.2, table(imageID.utterance, stateRating)) + 1, margin=1))
   colnames(states.1)[3] <- "prob.1"
@@ -242,18 +243,6 @@ splithalf.state <- subset(splithalf.state, !is.na(cors))
 splithalf.state$proph <- prophet(splithalf.state$cors, 2)
 
 summarySE(splithalf.state, measurevar=c("proph", groupvars=NULL))
-
-
-interp.states.raw <- with(interp, table(imageID.utterance, stateRating)) + 1
-interp.states <- as.data.frame(prop.table(interp.states.raw, margin = 1))
-interp.states <- cbind(interp.states,ldply(strsplit(as.character(interp.states$imageID.utterance),",")))
-colnames(interp.states)[2] <- "state"
-colnames(interp.states)[4] <- "imageID"
-colnames(interp.states)[5] <- "utterance"
-interp.states$utterance <- factor(interp.states$utterance, levels=c("terrible", "bad", "neutral", "good", "amazing"))
-interp.states$state <- factor(interp.states$state, levels=c("terrible", "bad", "neutral", "good", "amazing"))
-
-
 
 # affects
 
@@ -354,7 +343,11 @@ models <- models[with(models, order(-cor)), ]
 
 bestName <- as.character(subset(models, cor==max(models$cor))$name)
 
-model <- read.csv(paste("../model/parsedOutputsWithParams_smoothed/", bestName, sep=""))
+#model <- read.csv(paste("../model/parsedOutputsWithParams_smoothed/", bestName, sep=""))
+####
+# Model with no arousal goal
+####
+model <- read.csv("../model/model0-noArousal.csv")
 model$utterance <- factor(model$utterance, levels=c("terrible", "bad", "ok", "good", "amazing"),
                           labels=c("terrible", "bad", "neutral", "good", "amazing"))
 model$state <- factor(model$state, levels=c("terrible", "bad", "neutral", "good", "amazing"))

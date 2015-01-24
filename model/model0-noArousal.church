@@ -1,0 +1,189 @@
+(define p-state 0.2)
+(define p-valence 0.3)
+(define p-arousal 0)
+(define alpha 1)
+
+(define states (list 'terrible 'bad 'neutral 'good 'amazing))
+
+(define (state-prior ID)
+   (case ID
+         (('1) (multinomial states '(0.01851852 0.01851852 0.01851852 0.16666667 0.77777778)))
+         (('2) (multinomial states '(0.01851852 0.01851852 0.01851852 0.07407407 0.87037037)))
+         (('3) (multinomial states '(0.01851852 0.01851852 0.01851852 0.05555556 0.88888889)))
+         (('4) (multinomial states '(0.01851852 0.14814815 0.51851852 0.27777778 0.03703704)))
+         (('5) (multinomial states '(0.01851852 0.01851852 0.22222222 0.62962963 0.11111111)))
+         (('6) (multinomial states '(0.01851852 0.01851852 0.18518519 0.59259259 0.18518519)))
+         (('7) (multinomial states '(0.55555556 0.35185185 0.05555556 0.01851852 0.01851852)))
+         (('8) (multinomial states '(0.09259259 0.40740741 0.33333333 0.14814815 0.01851852)))
+         (('9) (multinomial states '(0.55555556 0.35185185 0.05555556 0.01851852 0.01851852)))))
+
+;; Define valences
+(define valences (list 'pos 'neg))
+
+;; Valence prior defined in terms of positive valence. If the current state
+;; is terrible, it's extremely likely that the valence associted is negative.
+;; If it's ok, then the valence could be negative or positive with equal probability.
+(define valence-prior (list 
+                       (list 'terrible 0.07776552)
+                       (list 'bad 0.18964198)
+                       (list 'neutral 0.39389527) 
+                       (list 'good 0.65605714)
+                       (list 'amazing 0.80941248)))
+
+
+;; Define arousals. Assuming arousal is binary, but could model as continuous.
+(define arousals (list 'low 'high))
+
+(define arousal-prior (list 
+                       (list 'terrible 0.25986298)
+                       (list 'bad 0.51398026)
+                       (list 'neutral 0.83807240) 
+                       (list 'good 0.62240726)
+                       (list 'amazing 0.32766683)))
+
+;; Define goals and goal priors. Could want to communicate state of the world,
+;; valence about it, or arousal (intensity of feeling) about it.
+;(define goals (list 'goal-state 'goal-valence 'goal-arousal))
+;(define (goal-prior) (multinomial goals '(0.1 0.1 0.1)))
+
+(define goals (list 
+  'goal-state 'goal-valence 'goal-arousal 
+  'goal-state-valence 'goal-state-arousal 'goal-valence-arousal
+  'goal-state-valence-arousal))
+
+(define (goal-prior) (multinomial goals (list p-state p-valence p-arousal 
+                                        (* p-state p-valence) (* p-state p-arousal) (* p-valence p-arousal)
+                                        (* p-state (* p-valence p-arousal)))))
+
+;; Assume possible utterances are identical to possible states
+(define utterances states)
+
+;; Assume cost of utterances is uniform.
+(define (utterance-prior) 
+  (multinomial utterances '(0.1 0.1 0.1 0.1 0.1)))
+
+;; Sample valence given a state.
+(define (sample-valence state prior)
+  (let ((current-state-valence-pair (first prior)))
+    (if (equal? state (first current-state-valence-pair))
+        (if (flip (second current-state-valence-pair))
+            'pos
+            'neg)
+        (sample-valence state (rest prior)))))
+
+;; Sample arousal given a state.
+(define (sample-arousal state prior)
+  (let ((current-state-arousal-pair (first prior)))
+    (if (equal? state (first current-state-arousal-pair))
+        (if (flip (second current-state-arousal-pair))
+            'low
+            'high)
+        (sample-arousal state (rest prior)))))
+
+; Literal interpretation is just when utterance equals state
+(define (literal-interpretation utterance state)
+  (equal? utterance state))
+
+; A speaker's goal is satisfied if the listener infers the correct and relevant information.
+(define (goal-satisfied? goal listener-state-valence-arousal speaker-state speaker-valence speaker-arousal)
+  (case goal
+    (('goal-state) (equal? (first listener-state-valence-arousal) speaker-state))
+    (('goal-valence) (equal? (second listener-state-valence-arousal) speaker-valence))
+    (('goal-arousal) (equal? (third listener-state-valence-arousal) speaker-arousal))
+    (('goal-state-valence) (and (equal? (first listener-state-valence-arousal) speaker-state)
+                                (equal? (second listener-state-valence-arousal) speaker-valence)))
+    (('goal-state-arousal) (and (equal? (first listener-state-valence-arousal) speaker-state)
+                                (equal? (third listener-state-valence-arousal) speaker-arousal)))
+    (('goal-valence-arousal) (and (equal? (second listener-state-valence-arousal) speaker-valence)
+                                (equal? (third listener-state-valence-arousal) speaker-arousal)))
+    (('goal-state-valence-arousal) (and (equal? (first listener-state-valence-arousal) speaker-state)
+                                  (and (equal? (second listener-state-valence-arousal) speaker-valence)
+                                (equal? (third listener-state-valence-arousal) speaker-arousal))))
+
+    )
+  )
+
+(define speaker
+  (mem (lambda (imageID state valence arousal goal depth)
+  (enumeration-query
+   (define utterance (utterance-prior))
+   ; Choose utterance
+   utterance
+   ; Conditioned on goal being satisfied
+    (goal-satisfied? goal (apply multinomial (listener imageID utterance depth)) 
+                     state valence arousal)
+   ))))
+
+(define listener
+  (mem (lambda (imageID utterance depth)
+  (enumeration-query
+   (define state (state-prior imageID))
+   (define valence (sample-valence state valence-prior))
+   (define arousal (sample-arousal state arousal-prior))
+   (define speaker-goal (goal-prior))
+   ; Choose interpretation
+   (list state valence arousal)
+   ; Given speaker's utterance
+   (if (equal? depth 0)
+       (literal-interpretation utterance state)
+       (equal? utterance
+               (apply multinomial (raise-to-power 
+                                   (speaker imageID state valence arousal speaker-goal 
+                                            (- depth 1)) alpha))))
+   ))))
+
+(define (raise-to-power speaker-dist alpha)
+  (list (first speaker-dist) (map (lambda (x) (pow x alpha)) (second speaker-dist))))
+
+(define depth 1)
+
+(define (interpret imageID utterance) 
+  (listener imageID utterance depth))
+
+(list
+(list (interpret '1 'terrible) 
+      (interpret '1 'bad) 
+      (interpret '1 'neutral) 
+      (interpret '1 'good) 
+      (interpret '1 'amazing))
+(list (interpret '2 'terrible) 
+      (interpret '2 'bad) 
+      (interpret '2 'neutral) 
+      (interpret '2 'good) 
+      (interpret '2 'amazing))
+(list (interpret '3 'terrible) 
+      (interpret '3 'bad) 
+      (interpret '3 'neutral) 
+      (interpret '3 'good) 
+      (interpret '3 'amazing))
+(list (interpret '4 'terrible) 
+      (interpret '4 'bad) 
+      (interpret '4 'neutral) 
+      (interpret '4 'good) 
+      (interpret '4 'amazing))
+(list (interpret '5 'terrible) 
+      (interpret '5 'bad) 
+      (interpret '5 'neutral) 
+      (interpret '5 'good) 
+      (interpret '5 'amazing))
+(list (interpret '6 'terrible) 
+      (interpret '6 'bad) 
+      (interpret '6 'neutral) 
+      (interpret '6 'good) 
+      (interpret '6 'amazing))
+(list (interpret '7 'terrible) 
+      (interpret '7 'bad) 
+      (interpret '7 'neutral) 
+      (interpret '7 'good) 
+      (interpret '7 'amazing))
+(list (interpret '8 'terrible) 
+      (interpret '8 'bad) 
+      (interpret '8 'neutral) 
+      (interpret '8 'good) 
+      (interpret '8 'amazing))
+(list (interpret '9 'terrible) 
+      (interpret '9 'bad) 
+      (interpret '9 'neutral) 
+      (interpret '9 'good) 
+      (interpret '9 'amazing))
+ )

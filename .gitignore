@@ -5,5 +5,5 @@
 *.aux
 *.log
 *.synctex.gz
-writing/*.pdf
+writing/cogsci2015/cogsci2015-irony.pdf
 

@@ -13,45 +13,45 @@ Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
 Database file #1: irony.bib
 apacite.bst [2012/02/25 v6.01 APA bibliography style]
 Warning--No journal in clark1984pretense
-You've used 22 entries,
+You've used 23 entries,
             6735 wiz_defined-function locations,
-            1377 strings with 13828 characters,
-and the built_in function-call counts, 39544 in all, are:
-= -- 5116
-> -- 332
-< -- 1682
-+ -- 1755
-- -- 45
-* -- 2408
-:= -- 6777
-add.period$ -- 96
-call.type$ -- 22
-change.case$ -- 394
+            1384 strings with 13921 characters,
+and the built_in function-call counts, 40851 in all, are:
+= -- 5280
+> -- 342
+< -- 1727
++ -- 1794
+- -- 47
+* -- 2484
+:= -- 6986
+add.period$ -- 100
+call.type$ -- 23
+change.case$ -- 411
 chr.to.int$ -- 0
-cite$ -- 45
-duplicate$ -- 1024
-empty$ -- 1619
-format.name$ -- 518
-if$ -- 7814
+cite$ -- 47
+duplicate$ -- 1058
+empty$ -- 1687
+format.name$ -- 532
+if$ -- 8086
 int.to.chr$ -- 0
-int.to.str$ -- 48
+int.to.str$ -- 50
 missing$ -- 0
-newline$ -- 543
-num.names$ -- 176
-pop$ -- 697
+newline$ -- 565
+num.names$ -- 184
+pop$ -- 718
 preamble$ -- 1
-purify$ -- 88
+purify$ -- 92
 quote$ -- 0
-skip$ -- 2789
+skip$ -- 2901
 stack$ -- 0
-substring$ -- 1993
-swap$ -- 630
-text.length$ -- 66
+substring$ -- 2038
+swap$ -- 655
+text.length$ -- 68
 text.prefix$ -- 0
 top$ -- 1
-type$ -- 2016
+type$ -- 2096
 warning$ -- 1
-while$ -- 179
+while$ -- 184
 width$ -- 0
-write$ -- 669
+write$ -- 693
 (There was 1 warning)

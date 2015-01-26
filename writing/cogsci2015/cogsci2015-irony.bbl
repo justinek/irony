@@ -160,6 +160,29 @@ Davidov, D.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
+Ekman%
+}{%
+Ekman%
+}{%
+{\protect \APACyear {1992}}%
+}]{%
+ekman1992argument}
+\APACinsertmetastar {%
+ekman1992argument}%
+\begin{APACrefauthors}%
+Ekman, P.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{1992}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {An argument for basic emotions} {An argument for basic
+  emotions}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Cognition \& Emotion}{6}{3-4}{169--200}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 Filatova%
 }{%
 Filatova%

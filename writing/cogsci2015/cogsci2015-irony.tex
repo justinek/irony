@@ -179,12 +179,11 @@ Could speakers leverage the arousal dimension to convey high arousal and positiv
 
 \todo[inline]{NDG: we need to be clearer about what we mean when we say ``one dimensional'' or ``two dimensional'' in the simulations: continuous or discrete? if discrete, are the dimensions binary, or do we have e.g. pos/neutral/neg valence?}
 
-To produce an interpretation of an utterance in context, the model requires the following input values: (1) $P(s)$: the prior probability of a weather state $s$ given a weather context. (2) $P(A | s)$: the probability of affect $A$ (positive/negative valence and high/low arousal) given a weather state. (3) $P(q)$: the prior probability of a particular QUD (4) The speaker optimality parameter $\lambda$. We derived the values for (1) and (2) from Experiment 1 and fit (3) and (4) to the data from Experiment 2, which we describe below.
+
 
 %\todo[inline]{RDH: maybe clarify the distinction between these spaces a bit -- is $a_2$ arousal + valence, while $a_1$ is just valence? It seems counterintuitive that adding \emph{arousal} would give rise to these effects... And not necessarily predicted by previous work?}
 %\todo[inline]{JTK: But do we refer to these affect dimensions as valence and arousal? Without first introducing these dimensions with the experiment, how should we talk about them in the model?}
 
-%\todo[inline]{let's try to compress this formal model description, given that it is the same as the PNAS paper. perhaps just say that we give a sketch, and the details can be found in the other paper?}
 
 %\begin{figure*}
 %\begin{subfigure}{0.5\textwidth}
@@ -210,7 +209,13 @@ To produce an interpretation of an utterance in context, the model requires the 
 \end{figure}
 
 \section{Behavioral Experiments}
-To quantitatively test our model with the enriched affect space described above, we conducted the following two experiments. In Experiment 1, we measured the prior beliefs over weather states for various weather contexts. We also measured various emotions associated with different weather contexts in order to empirically extract the affective dimensions relevant to this domain. In Experiment 2, we collected people's ratings of how a speaker perceives and feels about the weather given what she says (e.g. ``The weather is terrible!" when the context clearly depicts sunny weather).
+To quantitatively test the ability of the qRSA model with expanded affect space to capture ironic interpretations we need appropriate prior distributions, as well as human interpretation data.
+We conducted Experiment 1 to measure both prior beliefs over weather states ($P(s)$) for various weather contexts, and the likelihood of various emotions in different weather states (in order to empirically derive the affective space and priors, $P(A | s)$, for this domain).
+In Experiment 2, we collected people's ratings of how a speaker perceives and feels about the weather given what she says (e.g. ``The weather is terrible!" when the context clearly depicts sunny weather).
+
+%To produce an interpretation of an utterance in context, the model requires the following input values: (1) $P(s)$: the prior probability of a weather state $s$ given a weather context. (2) $P(A | s)$: the probability of affect $A$ (positive/negative valence and high/low arousal) given a weather state. (3) $P(q)$: the prior probability of a particular QUD (4) The speaker optimality parameter $\lambda$. We derived the values for (1) and (2) from Experiment 1 and fit (3) and (4) to the data from Experiment 2, which we describe below.
+%
+%In Experiment 1, we measured the prior beliefs over weather states for various weather contexts. We also measured various emotions associated with different weather contexts in order to empirically extract the affective dimensions relevant to this domain. In Experiment 2, we collected people's ratings of how a speaker perceives and feels about the weather given what she says (e.g. ``The weather is terrible!" when the context clearly depicts sunny weather).
 
 %\todo[inline]{I would emphasize in motivating this that we want to explore how the true affective response space can explain irony. Hence we measure the state priors but also measure a bunch of dimensions of potential variance of affect. We can then do dimensionality reduction to extract the true affective dimensions to construct an affect-given-state prior. In model comparison below, make sure we test keeping different numbers of components from the PCA.
 

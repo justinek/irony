@@ -10,7 +10,7 @@ for p_s in p_states:
         for p_a in p_arousals:
             for alpha in alphas:
                 filename = str(p_s) + "_" + str(p_v) + "_" + str(p_a) + "_" + str(alpha) + ".church"
-                wF = open("modelsWithParams_smoothed/" + filename, "w")
+                wF = open("modelsWithParams_singleGoal/" + filename, "w")
                 wF.write("(define p-state " + str(p_s) + ")\n" + "(define p-valence " + str(p_v) + ")\n" + "(define p-arousal " + str(p_a) + ")\n" + "(define alpha " + str(alpha) + ")")
                 f = open(sys.argv[1], "r")
                 for l in f:

@@ -43,9 +43,9 @@
 ;(define (goal-prior) (multinomial goals '(0.1 0.1 0.1)))
 
 (define goals (list 
-  'goal-state 'goal-valence))
+  'goal-state 'goal-valence 'goal-arousal))
 
-(define (goal-prior) (multinomial goals (list p-state p-valence)))
+(define (goal-prior) (multinomial goals (list p-state p-valence p-arousal)))
 
 ;; Assume possible utterances are identical to possible states
 (define utterances states)
@@ -81,7 +81,7 @@
   (case goal
     (('goal-state) (equal? (first listener-state-valence-arousal) speaker-state))
     (('goal-valence) (equal? (second listener-state-valence-arousal) speaker-valence))
-    ;(('goal-arousal) (equal? (third listener-state-valence-arousal) speaker-arousal))
+    (('goal-arousal) (equal? (third listener-state-valence-arousal) speaker-arousal))
     ;(('goal-state-valence) (and (equal? (first listener-state-valence-arousal) speaker-state)
     ;                            (equal? (second listener-state-valence-arousal) speaker-valence)))
     ;(('goal-state-arousal) (and (equal? (first listener-state-valence-arousal) speaker-state)

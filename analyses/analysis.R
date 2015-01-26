@@ -2,6 +2,7 @@ library(ggplot2)
 library(reshape2)
 library(plyr)
 library(ggbiplot)
+library(lme4)
 source("~/Dropbox/Work/Grad_school/Research/Utilities/summarySE.R")
 
 ###########################
@@ -93,21 +94,6 @@ ggplot(priors.pca.probit.summary, aes(x=stateRating, y=value.corrected, color=va
   ylab("Probability") +
   scale_color_discrete(name="Affect dimension", labels=c("Positive valence", "High arousal"))
   
-priors.pca.probit.summary <- summarySE(priors.pca.probit.long, measurevar="value.corrected",
-                                       groupvars=c("variable", "stateRating"))
-
-ggplot(priors.pca.probit.summary, aes(x=stateRating, y=value.corrected, color=variable)) +
-  geom_point() +
-  geom_line(aes(group=variable)) +
-  #geom_point(size=2) +
-  #geom_line(aes(group=variable)) +
-  geom_errorbar(aes(ymin=value.corrected-ci, ymax=value.corrected+ci), width=0.05) +
-  #facet_wrap(~ stateRating, ncol=3) +
-  theme_bw() +
-  xlab("Weather state rating") +
-  ylab("Probability") +
-  scale_color_discrete(name="Affect dimension", labels=c("Positive valence", "High arousal"))
-
 
 ####################################
 # Interpretation data
@@ -133,7 +119,9 @@ irony.summary$utteranceValence <- ifelse(irony.summary$utterance == "neutral", "
                                                 "neg"))
 irony.summary$consistent <- ifelse(irony.summary$imageValence == irony.summary$utteranceValence, 1, 0)
 
+t.test(subset(irony.summary, consistent==1)$ironyRating, subset(irony.summary, consistent==0)$ironyRating)
 summary(lm(data=irony.summary, ironyRating ~ consistent))
+summary(lm(data=irony.summary, ironyRating ~ utteranceValence * imageValence))
 
 ggplot(irony.summary, aes(x=utterance, y=ironyRating)) +
   geom_bar(stat="identity", color="black", fill="grey", position=position_dodge()) +
@@ -142,6 +130,18 @@ ggplot(irony.summary, aes(x=utterance, y=ironyRating)) +
   theme_bw() +
   ylab("Irony rating")
 
+
+# Mixed model
+interp$imageValence <- ifelse(interp$imageID == 4, "neutral",
+                                     ifelse(interp$imageID == 7 | interp$imageID == 8 | interp$imageID == 9,
+                                            "neg", "pos"))
+interp$utteranceValence <- ifelse(interp$utterance == "neutral", "neutral",
+                                         ifelse(interp$utterance == "amazing" | interp$utterance == "good", "pos",
+                                                "neg"))
+interp$consistent <- ifelse(interp$imageValence == interp$utteranceValence, 1, 0)
+
+lm.irony <- lmer(data=interp, ironyRating ~ imageValence * utteranceValence + (1| workerID), REML=FALSE) 
+summary(lm.irony)
 
 # state
 interp.states.raw <- with(interp, table(imageID.utterance, stateRating)) + 1
@@ -240,6 +240,11 @@ while (t <= 1000) {
 
 splithalf.state <- subset(splithalf.state, !is.na(cors))
 
+prophet <- function(reliability, length) {
+  prophecy <- length * reliability / (1 + (length - 1)*reliability)
+  return (prophecy)
+}
+
 splithalf.state$proph <- prophet(splithalf.state$cors, 2)
 
 summarySE(splithalf.state, measurevar=c("proph", groupvars=NULL))
@@ -272,11 +277,6 @@ while (t <= 1000) {
                              arousal=arousal.cor)
     splithalf.cors <- rbind(splithalf.cors, this.frame)
   }
-}
-
-prophet <- function(reliability, length) {
-  prophecy <- length * reliability / (1 + (length - 1)*reliability)
-  return (prophecy)
 }
 
 splithalf.cors <- splithalf.cors[complete.cases(splithalf.cors),]
@@ -343,11 +343,11 @@ models <- models[with(models, order(-cor)), ]
 
 bestName <- as.character(subset(models, cor==max(models$cor))$name)
 
-#model <- read.csv(paste("../model/parsedOutputsWithParams_smoothed/", bestName, sep=""))
+model <- read.csv(paste("../model/parsedOutputsWithParams_smoothed/", bestName, sep=""))
 ####
 # Model with no arousal goal
 ####
-model <- read.csv("../model/model0-noArousal.csv")
+#model <- read.csv("../model/model0-noArousal.csv")
 model$utterance <- factor(model$utterance, levels=c("terrible", "bad", "ok", "good", "amazing"),
                           labels=c("terrible", "bad", "neutral", "good", "amazing"))
 model$state <- factor(model$state, levels=c("terrible", "bad", "neutral", "good", "amazing"))
@@ -474,18 +474,25 @@ colnames(priors.states)[3] <- "prob"
 interp.states$imageID.utterance <- NULL
 colnames(interp.states)[2] <- "prob"
 
-comp.prior.state <- rbind(priors.states, interp.states)
-comp.prior.state$utterance <- factor(comp.prior.state$utterance, levels=c("prior", "terrible", "bad", "neutral",
-                                                                          "good", "amazing"))
-colors.utterances <- c("#990000", "#ff9966", "#66cc99", "#3399ff", "#003399")
-ggplot(comp.prior.state, aes(x=state, y=prob, color=utterance)) +
-  geom_point(size=3) +
-  geom_line(aes(group=utterance)) +
-  theme_bw() +
-  facet_wrap(~imageID, ncol=3) +
-  scale_color_manual(values=c("gray", colors.utterances)) +
-  ylab("Proportion of subjects") +
-  xlab("State")
+###################
+# Add priors to correlate with posterior ratings
+###################
+comp.prior.state.wide <- join(priors.states, interp.states, by=c("imageID", "state"))
+colnames(comp.prior.state.wide)[3] <- "prior"
+with(comp.prior.state.wide, cor.test(prior, prob))
+
+# comp.prior.state <- rbind(priors.states, interp.states)
+# comp.prior.state$utterance <- factor(comp.prior.state$utterance, levels=c("prior", "terrible", "bad", "neutral",
+#                                                                           "good", "amazing"))
+# colors.utterances <- c("#990000", "#ff9966", "#66cc99", "#3399ff", "#003399")
+# ggplot(comp.prior.state, aes(x=state, y=prob, color=utterance)) +
+#   geom_point(size=3) +
+#   geom_line(aes(group=utterance)) +
+#   theme_bw() +
+#   facet_wrap(~imageID, ncol=3) +
+#   scale_color_manual(values=c("gray", colors.utterances)) +
+#   ylab("Proportion of subjects") +
+#   xlab("State")
 
 #####
 # Valence
@@ -536,6 +543,10 @@ ggplot(comp.prior.valence, aes(x=utterance, y=probability, color=imageCategory))
   scale_linetype_discrete(name="Interpretation", labels=c("Human", "Model"), guide=FALSE) +
   xlab("Utterance") +
   ylab("Probability of positive valence")
+
+summary(lm(data=comp.prior.valence, probability ~ utterance))
+summary(lm(data=comp.prior.valence, probability ~ prior))
+summary(lm(data=comp.prior.valence, probability ~ utterance * prior))
 
 #####
 # Arousal
@@ -591,31 +602,46 @@ comp.prior.arousal$utterance <- factor(comp.prior.arousal$utterance, levels=c("p
 comp.prior.arousal$imageID.reordered <- factor(comp.prior.arousal$imageID, levels=c(3, 2, 1, 6, 5, 4, 8, 7, 9),
                                                labels=c("w1", "w2", "w3", "w4", "w5", "w6", "w7", "w8", "w9"))
 
-colnames(comp.prior.arousal)[4] <- "prior"
+colnames(comp.prior.arousal)[3] <- "prior"
 
+summary(lm(data=comp.prior.arousal, probability ~ prior))
+summary(lm(data=comp.prior.arousal, probability ~ utterance))
+summary(lm(data=comp.prior.arousal, probability ~ utterance * prior))
 
-
-ggplot(comp.prior.arousal, aes(x=utterance, y=value.corrected)) +
+ggplot(comp.prior.arousal, aes(x=utterance, y=probability)) +
   geom_point() +
   geom_line(aes(group=imageID.reordered)) +
   geom_hline(aes(yintercept=prior), color="grey", linetype=2) +
   #geom_bar(stat="identity", color="black", fill="grey") +
-  geom_errorbar(aes(ymin=value.corrected-ci, ymax=value.corrected+ci), width=0.05) +
+  geom_errorbar(aes(ymin=probability-ci, ymax=probability+ci), width=0.05) +
   theme_bw() +
   facet_wrap(~imageID.reordered, ncol=3) +
   scale_color_manual(values=c("gray", colors.utterances)) +
   xlab("Utterance") +
   ylab("Probability of high arousal")
 
-priors.arousal <- subset(priors.pca.probit.summary, variable=="Comp.2")
-comp.prior.arousal <- rbind(priors.arousal, interp.arousal)
-comp.prior.arousal$utterance <- factor(comp.prior.arousal$utterance, levels=c("prior", "terrible", "bad",
-                                                                              "neutral", "good", "amazing"))
-ggplot(comp.prior.arousal, aes(x=utterance, y=value)) +
-  geom_bar(stat="identity", color="black", fill="grey") +
-  geom_errorbar(aes(ymin=value-se, ymax=value+se), width=0.2) +
-  theme_bw() +
-  facet_wrap(~imageID, ncol=3) 
+################################
+# Model's prediction of irony
+###############################
+priors.byState.valence <- subset(priors.pca.probit.summary, variable=="Comp.1")
+colnames(priors.byState.valence)[2] <- "utterance"
+colnames(priors.byState.valence)[4] <- "literalValence"
+model.valence.litComp <- join(model.valence.pos, priors.byState.valence, by=c("utterance"))
+model.valence.litComp.irony <- join(model.valence.litComp, irony.summary, by=c("imageID", "utterance"))
+
+model.valence.litComp.irony$valenceFlip <- abs(model.valence.litComp.irony$probability - model.valence.litComp.irony$literalValence)
+model.valence.litComp.irony$valenceDiff <- model.valence.litComp.irony$probability - model.valence.litComp.irony$literalValence
+
+
+summary(lm(data=model.valence.litComp.irony, ironyRating ~ probability * literalValence))
+summary(lm(data=model.valence.litComp.irony, ironyRating ~ valenceFlip))
+summary(lm(data=model.valence.litComp.irony, ironyRating ~ valenceDiff))
+
+ggplot(model.valence.litComp.irony, aes(x=valenceFlip, y=ironyRating, color=utterance)) +
+  geom_point() +
+  theme_bw()
+
+
 
 #################################
 # Toy model simulation

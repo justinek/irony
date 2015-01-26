@@ -100,7 +100,7 @@ In what follows, we will examine interpretations of potentially ironic utterance
 %The extended model was able to produce appropriate interpretations of hyperbole as well as its affective subtext. However, since the model only considered a fairly impoverished affect goal (communicating presence or absence of negative affect), it could not take into account cases where a negative utterance is used to communicate positive affect (and vice versa), which is critical in ironic uses (e.g. saying ``Life is so hard!" when sipping iced lemonade on a sunny beach). 
 %
 
-In this section, we describe the qRSA model and compare different spaces of affect to test the conditions for producing ironic interpretations. 
+In this section, we describe the qRSA model\footnote{See \citeA{kao2014nonliteral} for details and a more leisurely exposition.} and compare different spaces of affect to test the conditions for producing ironic interpretations. 
 %
 %We begin with a literal listener $L_0$, who interprets all utterances literally. For example, the literal listener will interpret the utterance ``The weather is terrible" to mean that the weather state is \emph{terrible}, and that the speaker has the corresponding negative valence towards the weather. 
 %
@@ -114,19 +114,17 @@ In this section, we describe the qRSA model and compare different spaces of affe
 %
 %We assume that the speaker's goal $g$ is to communicate  along any (or multiple) of the three dimensions of meaning, which results in $2^3 - 1 = 7$ possible goals (the speaker cannot communicate along none of the dimensions). For example, the speaker may want to communicate only the weather state $s$, or only her valence about $s$, or both.
 %We assume that the QUD may be about the actual weather, or the speaker's emotional valence towards the weather. 
-Following the qRSA model described in \citeA{kao2014nonliteral}, a speaker chooses an utterance that most effectively communicates information regarding the question under discussion (QUD) to a literal listener. We consider a meaning space consisting of the variables $s, A$, where $s$ is the state of the world, and $A$ represents the speaker's (potentially multidimensional) affect towards the state. \todo{JTK: notation?}
+Following the qRSA model described in \citeA{kao2014nonliteral}, a speaker chooses an utterance that most effectively communicates information regarding the question under discussion (QUD) to a literal listener. We consider a meaning space consisting of the variables $s, A$, where $s$ is the state of the world, and $A$ represents the speaker's (potentially multidimensional) affect towards the state. \todo{JTK: notation? NDG: seems fine.}
 We formalize a QUD as a projection from the full meaning space to the subset of interest to the speaker, which could be $s$ or any of the dimensions of $A$. 
-We define the speaker's utility as the negative surprisal of the true state under the listener's distribution given an utterance along the QUD dimension, leading to the following utility function\footnote{See \citeA{kao2014nonliteral} for details.}:
+We specify the speaker's utility as information gained by the listener about the topic of interest---the negative surprisal of the true state under the listener's distribution given an utterance, $u$, along the QUD dimension, $q$---leading to the following utility function:
 %\todo[inline]{RDH: 1. maybe write out this utility function mathematically? 2. what is the meaning space? Is this just the world space? Or the set of features indexing the world space? 3. maybe explain what the subscripts mean? Using a subscript for $S_1$ sets it up for there to be an $S_2$ or $S_0$, which there isn't!}
 %
 \begin{equation}
 U(u | s, A, q) = \log \sum_{s', A'} \delta_{q(s, A)=q(s', A')} L_{literal}(s, A |u)
 \end{equation}
-where $q$ is the QUD and $L_{literal}$ is the literal listener. 
+where $L_{literal}$ describes the literal listener, who updates her prior beliefs about $s, A$ by assuming the utterance to be true of $s$. 
 The speaker $S$ chooses an utterance according to a softmax decision rule \cite{sutton1998reinforcement}:
-\begin{equation}
-S(u | s, A, q) \propto e^{\lambda U(u | s, A, q)},
-\end{equation}
+$S(u | s, A, q) \propto e^{\lambda U(u | s, A, q)}$,
 where $\lambda$ is an optimality parameter.
 %
 A pragmatic listener $L_{pragmatic}$ then takes into account prior knowledge and his internal model of the speaker to determine the state of the world as well as the speaker's affect. Because $L_{pragmatic}$ is uncertain about the QUD, he marginalizes over the possible QUDs under consideration:
@@ -134,13 +132,14 @@ $$
 L_{pragmatic}(s, A | u) \propto P(s) P(A | s) \sum_{q}{P (q) S (u|s, A, q)}
 $$
 %
-The resulting distribution over world states and speaker affects given an utterance is an \emph{interpretation} of the utterance. 
+The resulting distribution over world states and speaker affects is an \emph{interpretation} of the utterance. 
 
 \begin{figure}
 \scalebox{0.43}{\includegraphics{sim12}}
 \caption{Model interpretations of ``The weather is terrible" given different prior beliefs about the weather state and affect dimensions. Gray dotted lines indicate prior beliefs about weather states given a weather context; blue lines indicate interpretations when reasoning only about the speaker's valence; orange lines indicate interpretations when reasoning about both valence and arousal.}
 \label{sim12}
 \end{figure}
+%\todo{NDG: perhaps we could have marker size in fig 1 correspond to interpreted arousal? never mind, we don't have that for the first sim...}
 
 \begin{figure*}
     %\centering
@@ -164,14 +163,21 @@ The resulting distribution over world states and speaker affects given an uttera
 \end{figure*}
 
 %\todo[inline]{RDH: It might be helpful here to point out that you're going to try different ways of specifying the QUD space. Otherwise, it may not be clear what you're `considering' these spaces for.}
-We examine the model's behavior using affect spaces with different dimensions.  
+\todo[inline]{NDG: this paragraph is confusing and long-winded. start by describing the assumptions of the simulation: $s$ has five ordered values, consider two different priors corresponding to apparently bad (but not horrible) weather and apparently great weather, consider first qRSA with a single boolean good/neutral $A$. describe the fig 1 result, that we see hyperbole but not irony, without going into the blow-by-blow. then describe the extended $A$ and it's result.}
+We examine the model's behavior using affect spaces, $A$, that differ in complexity and structure.  
 We first consider a one-dimensional affect space, where the dimension is emotional valence---whether the speaker feels negative or positive about the world state.  
 %
 %If $L_1$ thinks it is likely that speaker $S_1$'s goal is to convey negative emotion but believes that it is \emph{a priori} unlikely for the weather state to be \emph{terrible}, he will determine that $S_1$ feels negative about the weather, but that the weather state is more likely less extreme than \emph{terrible}. This produces a hyperbolic interpretation of the utterance. However, if $L_1$ thinks it is \emph{a priori} extremely likely for the weather state to be \emph{amazing}, upon hearing ``The weather is terrible," he will believe that the weather is terrible, because otherwise there is no reason for $S_1$ to choose that utterance. In other words, this model cannot infer a positive state from a negative utterance (and vice versa), thus failing on most cases of verbal irony. 
 %
 Suppose there is strong prior belief that the weather state is \texttt{bad}; also suppose that the QUD is the speaker $S$'s emotional valence towards the weather. Based on $S$'s understanding of the literal listener's prior knowledge, she knows that if she produces the utterance ``The weather is terrible," $L_{literal}$ will believe that the weather is \texttt{terrible} and that the speaker is likely to feel negative about it. Since the QUD is successfully addressed if $L_{literal}$ believes that $S$ feels negative towards the weather state, $S$ is motivated to produce the utterance ``The weather is terrible." However, suppose that the pragmatic listener $L_{pragmatic}$ has strong prior belief that the weather state is \texttt{bad}. Since $L_{pragmatic}$ reasons about $S$ and her goals, he realizes that $S$ chose the utterance ``The weather is terrible" to communicate her negative affect and not the true state of the weather. He will then infer that the weather is likely \texttt{bad}, and that $S$ is extremely likely to feel negative towards it, which successfully produces a hyperbolic interpretation. However, suppose there is strong prior belief that the weather is \texttt{amazing}. Given the utterance ``The weather is terrible," $L_{pragmatic}$ interprets it literally to mean that the weather is indeed \texttt{terrible}. This is because if it were \emph{not} terrible, then it would be unlikely for $S$ to choose the utterance, as it is unlikely to communicate either the true state of the world or her valence The blue lines in Figure~\ref{sim12} show simulations of the model with this one-dimensional affect space. While the model produces a hyperbolic interpretation given strong prior belief about \texttt{bad} weather (left panel), it produces a literal interpretation given strong prior belief about \texttt{amazing} weather (right panel). In other words, a model that only considers a single affect dimension (valence) is unlikely to infer a positive world state from a highly negative utterance (and vice versa), thus failing on many cases of verbal irony. 
 
-We now consider a more complex affect space with two dimensions---valence and arousal---to observe its consequence on interpretation. Affective science identifies valence and arousal as two main dimensions underlying the slew of emotions that people experience (cite). For example, \emph{anger} is a negative valence and high arousal emotion, while \emph{contentment} is a positive valence and low arousal emotion (cite). We suggest that perhaps speakers leverage the arousal dimension to convey high arousal and positive affect (e.g. excitement) using utterances whose literal meanings are associated with high arousal and negative affect (e.g. ``The weather is terrible"). The orange lines in Figure~\ref{sim12} show simulations of the qRSA model with a two-dimensional affect space, valence and arousal. Given strong prior belief that the weather state is \texttt{bad}, the model interprets ``The weather is terrible" to mean that the weather is likely to be \texttt{bad}, producing a hyperbolic interpretation. However, given strong prior belief that the weather is \texttt{amazing}, the model now interprets ``The weather is terrible" ironically to mean that the weather is likely \texttt{amazing}. This is because with the enriched two-dimensional affect space, the pragmatic listener realizes that the speaker may be using ``terrible" to communicate high emotional arousal. These model simulations suggest that reasoning about a two-dimensional affect space motivated by emotion theory enables the model to appropriately interpret ironic utterances. 
+%We now consider a more complex affect space with two dimensions---valence and arousal---to observe its consequence on interpretation. 
+Affective science identifies two dimensions, termed valence and arousal, as underlying the slew of emotions that people experience (cite). 
+For example, \emph{anger} is a negative valence and high arousal emotion, while \emph{contentment} is a positive valence and low arousal emotion (cite). 
+These two dimensions are not independent, with low arousal implying more neutral valence.\todo{NDG: is this dependence built into the model's prior? if so, does it matter? if not, we should explore it...} 
+Could speakers leverage the arousal dimension to convey high arousal and positive affect (e.g. excitement) using utterances whose literal meanings are associated with high arousal but negative affect (e.g. ``The weather is terrible")? The orange lines in Figure~\ref{sim12} show simulations of the qRSA model with a two-dimensional affect space, valence and arousal. Given strong prior belief that the weather state is \texttt{bad}, the model interprets ``The weather is terrible" to mean that the weather is likely to be \texttt{bad}, producing a hyperbolic interpretation. However, given strong prior belief that the weather is \texttt{amazing}, the model now places much greater probability on the ironical interpretation of ``The weather is terrible", meaning that the weather is likely \texttt{amazing}. This is because with the enriched two-dimensional affect space, the pragmatic listener realizes that the speaker may be using ``terrible" to communicate high emotional arousal. (This result is not a simple effect of the prior: the neutral utterance ``The weather is ok'' is not interpreted as \texttt{amazing}.)\todo{NDG: is this true?} These simulations suggest that a psychologically realistic, two-dimensional affect space enables the model to appropriately interpret ironic utterances in addition to hyperbolic. 
+
+\todo[inline]{NDG: we need to be clearer about what we mean when we say ``one dimensional'' or ``two dimensional'' in the simulations: continuous or discrete? if discrete, are the dimensions binary, or do we have e.g. pos/neutral/neg valence?}
 
 To produce an interpretation of an utterance in context, the model requires the following input values: (1) $P(s)$: the prior probability of a weather state $s$ given a weather context. (2) $P(A | s)$: the probability of affect $A$ (positive/negative valence and high/low arousal) given a weather state. (3) $P(q)$: the prior probability of a particular QUD (4) The speaker optimality parameter $\lambda$. We derived the values for (1) and (2) from Experiment 1 and fit (3) and (4) to the data from Experiment 2, which we describe below.
 

@@ -1,4 +1,4 @@
-This is BibTeX, Version 0.99d (TeX Live 2014)
+This is BibTeX, Version 0.99d (TeX Live 2013)
 Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: cogsci2015-irony.aux
 The style file: apacite.bst
@@ -11,48 +11,47 @@ Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
 Database file #1: irony.bib
-Warning--I didn't find a database entry for "sutton1998reinforcement"
 apacite.bst [2012/02/25 v6.01 APA bibliography style]
 Warning--No journal in clark1984pretense
-You've used 20 entries,
+You've used 22 entries,
             6735 wiz_defined-function locations,
-            1367 strings with 13612 characters,
-and the built_in function-call counts, 36471 in all, are:
-= -- 4725
-> -- 306
-< -- 1571
-+ -- 1637
-- -- 41
-* -- 2229
-:= -- 6281
-add.period$ -- 88
-call.type$ -- 20
-change.case$ -- 360
+            1377 strings with 13828 characters,
+and the built_in function-call counts, 39544 in all, are:
+= -- 5116
+> -- 332
+< -- 1682
++ -- 1755
+- -- 45
+* -- 2408
+:= -- 6777
+add.period$ -- 96
+call.type$ -- 22
+change.case$ -- 394
 chr.to.int$ -- 0
-cite$ -- 41
-duplicate$ -- 928
-empty$ -- 1472
-format.name$ -- 480
-if$ -- 7181
+cite$ -- 45
+duplicate$ -- 1024
+empty$ -- 1619
+format.name$ -- 518
+if$ -- 7814
 int.to.chr$ -- 0
-int.to.str$ -- 44
+int.to.str$ -- 48
 missing$ -- 0
-newline$ -- 496
-num.names$ -- 160
-pop$ -- 634
+newline$ -- 543
+num.names$ -- 176
+pop$ -- 697
 preamble$ -- 1
-purify$ -- 80
+purify$ -- 88
 quote$ -- 0
-skip$ -- 2576
+skip$ -- 2789
 stack$ -- 0
-substring$ -- 1855
-swap$ -- 570
-text.length$ -- 58
+substring$ -- 1993
+swap$ -- 630
+text.length$ -- 66
 text.prefix$ -- 0
 top$ -- 1
-type$ -- 1856
+type$ -- 2016
 warning$ -- 1
-while$ -- 165
+while$ -- 179
 width$ -- 0
-write$ -- 614
-(There were 2 warnings)
+write$ -- 669
+(There was 1 warning)

@@ -682,6 +682,21 @@ ggplot(toy.2.state.priors, aes(x=state, y=probability, color=utterance)) +
   scale_color_manual(values=c("grey", "black"), labels=c("Prior", '"The weather is terrible."'), name="") +
   ylim(c(0, 0.6))
 
+toy.ok <- read.csv("../model/modeltoy-2affectok.csv")
+toy.ok.state <- aggregate(data=toy.ok, probability ~ imageID + utterance + state, FUN=sum)
+toy.ok.state.priors <- rbind(toy.priors, toy.ok.state)
+toy.2.state.priors$state <- factor(toy.2.state.priors$state, levels=c("terrible", "bad", "neutral", "good", "amazing"))
+toy.2.state.priors$imageID <- factor(toy.2.state.priors$imageID, labels=c("Bad weather", "Amazing weather"))
+ggplot(toy.2.state.priors, aes(x=state, y=probability, color=utterance)) +
+  geom_point() +
+  geom_line(aes(group=utterance)) +
+  facet_grid(.~imageID) +
+  theme_bw() +
+  xlab("Weather state") +
+  ylab("Probability") +
+  scale_color_manual(values=c("grey", "black"), labels=c("Prior", '"The weather is terrible."'), name="") +
+  ylim(c(0, 0.6))
+
 ########
 # Plot in one figure
 ########

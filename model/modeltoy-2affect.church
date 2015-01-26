@@ -131,7 +131,7 @@
 
 (list
   (list
-  (interpret '1 'terrible))
+  (interpret '1 'neutral))
   (list
-  (interpret '2 'terrible))
+  (interpret '2 'neutral))
 )

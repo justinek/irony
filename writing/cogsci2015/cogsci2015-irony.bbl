@@ -456,6 +456,30 @@ Roberts, R\BPBI M.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
+Russell%
+}{%
+Russell%
+}{%
+{\protect \APACyear {1980}}%
+}]{%
+russell1980circumplex}
+\APACinsertmetastar {%
+russell1980circumplex}%
+\begin{APACrefauthors}%
+Russell, J\BPBI A.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{1980}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {A circumplex model of affect.} {A circumplex model of
+  affect.}{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Journal of personality and social
+  psychology}{39}{6}{1161}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 Sperber%
 \ \BBA {} Wilson%
 }{%
@@ -479,6 +503,32 @@ Sperber, D.%
   use-mention distinction}.{\BBCQ}
 \newblock
 \APACjournalVolNumPages{Radical pragmatics}{49}{}{}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Sutton%
+\ \BBA {} Barto%
+}{%
+Sutton%
+\ \BBA {} Barto%
+}{%
+{\protect \APACyear {1998}}%
+}]{%
+sutton1998reinforcement}
+\APACinsertmetastar {%
+sutton1998reinforcement}%
+\begin{APACrefauthors}%
+Sutton, R\BPBI S.%
+\BCBT {}\ \BBA {} Barto, A\BPBI G.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYear{1998}.
+\newblock
+\APACrefbtitle {Reinforcement learning: An introduction} {Reinforcement
+  learning: An introduction}\ (\BVOL~1)\ (\BNUM~1).
+\newblock
+\APACaddressPublisher{}{Cambridge Univ Press}.
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%

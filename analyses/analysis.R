@@ -309,10 +309,10 @@ ggplot(affect.pca.summary, aes(x=utterance, y=value.corrected, color=variable)) 
 interp.valence <- subset(affect.pca.summary, variable=="Comp.1")
 interp.arousal <- subset(affect.pca.summary, variable=="Comp.2")
 
-filenames <- read.csv("../model/parsedOutputsWithParams_smoothed/filenames.txt", header=FALSE)
+filenames <- read.csv("../model/parsedOutputsWithParams_singleGoal/filenames.txt", header=FALSE)
 models <- data.frame(name=NULL, cor.state=NULL, cor.valence=NULL, cor.arousal=NULL, cor=NULL)
 for (f in filenames$V1) {
-  model <- read.csv(paste("../model/parsedOutputsWithParams_smoothed/", f, sep=""))
+  model <- read.csv(paste("../model/parsedOutputsWithParams_singleGoal/", f, sep=""))
   model$utterance <- factor(model$utterance, levels=c("terrible", "bad", "ok", "good", "amazing"),
                             labels=c("terrible", "bad", "neutral", "good", "amazing"))
   
@@ -343,7 +343,7 @@ models <- models[with(models, order(-cor)), ]
 
 bestName <- as.character(subset(models, cor==max(models$cor))$name)
 
-model <- read.csv(paste("../model/parsedOutputsWithParams_smoothed/", bestName, sep=""))
+model <- read.csv(paste("../model/parsedOutputsWithParams_singleGoal/", bestName, sep=""))
 ####
 # Model with no arousal goal
 ####
@@ -381,9 +381,22 @@ comp.state <- join(interp.states, model.state, by=c("imageID", "utterance", "sta
 with(comp.state, cor.test(prob, probability))
 comp.state$literal <- ifelse(comp.state$state==comp.state$utterance, "literal", "non")
 
-ggplot(comp.state, aes(x=probability, y=prob)) +
+# getValence <- function(state) {
+#   if (state=="terrible" | state=="bad") {
+#     return("neg")
+#   } else if (state=="neutral") {
+#     return("neutral")
+#   } else {
+#     return("pos")
+#   }
+# }
+
+#####################
+# POTENTIAL FIGURE
+#####################
+ggplot(comp.state, aes(x=probability, y=prob, color=literal)) +
   #geom_text(aes(label=state)) +
-  geom_point(color="black") +
+  geom_point() +
   #facet_grid(imageID ~ utterance) +
   geom_smooth(method=lm, color="gray") +
   #ylim(c(0, 1)) +
@@ -403,7 +416,12 @@ comp.state.long$imageCategory <- ifelse(as.numeric(comp.state.long$imageID) <= 3
                                       ifelse(as.numeric(comp.state.long$imageID) >= 7,
                                              "Negative", "Neutral"))
 comp.state.long$imageCategory <- factor(comp.state.long$imageCategory, levels=c("Positive", "Neutral", "Negative"))
-ggplot(comp.state.long, aes(x=state, y=prob, color=imageCategory)) +
+
+#####################
+# POTENTIAL FIGURE
+#####################
+
+p.model.state <- ggplot(comp.state.long, aes(x=state, y=prob, color=imageCategory)) +
   geom_point(size=3) +
   geom_line(aes(group=type, linetype=type)) +
   facet_grid(imageID.reordered ~ utterance) +
@@ -413,16 +431,26 @@ ggplot(comp.state.long, aes(x=state, y=prob, color=imageCategory)) +
   ylab("Probability") +
   xlab("Weather state") +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
-  
+
+ggsave("../writing/cogsci2015/model-state.pdf", width=10, height=9, units="in")
 
 #####
 # Valence
 #####
+
 interp.valence <- subset(affect.pca.summary, variable=="Comp.1")
 model.valence.pos <- subset(model.valence, valence=="pos")
 comp.valence <- join(interp.valence, model.valence.pos, by=c("imageID", "utterance"))
 with(comp.valence, cor.test(value.corrected, probability))
-ggplot(comp.valence, aes(x=probability, y=value.corrected)) +
+comp.valence$utteranceValence <- ifelse(comp.valence$utterance=="terrible" | comp.valence$utterance=="bad", "neg",
+                                        ifelse(comp.valence$utterance == "neutral", "neutral", "pos"))
+comp.valence$interpValence <- ifelse(comp.valence$probability < 0.5, "neg", "pos")
+comp.valence$valenceFlip <- ifelse(comp.valence$utteranceValence == comp.valence$interpValence, "no", "yes")
+#####################
+# POTENTIAL FIGURE
+#####################
+
+ggplot(comp.valence, aes(x=probability, y=value.corrected, color=utterance)) +
   geom_point() +
   theme_bw() +
   xlab("Model") +
@@ -436,7 +464,11 @@ interp.arousal <- subset(affect.pca.summary, variable=="Comp.2")
 model.arousal.high <- subset(model.arousal, arousal=="high")
 comp.arousal <- join(interp.arousal, model.arousal.high, by=c("imageID", "utterance"))
 with(comp.arousal, cor.test(value.corrected, probability))
-ggplot(comp.arousal, aes(x=probability, y=value.corrected)) +
+
+#####################
+# POTENTIAL FIGURE
+#####################
+ggplot(comp.arousal, aes(x=probability, y=value.corrected, color=utterance)) +
   geom_point() +
   theme_bw() +
   #facet_wrap(~imageID, ncol=3) +
@@ -718,3 +750,239 @@ ggplot(toy.model.comp, aes(x=state, y=probability, color=affect)) +
   #scale_color_brewer(palette="Set2") +
   theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank())
 
+#################################################################
+# Model comparisons
+#################################################################
+interp.states
+interp.valence
+interp.arousal
+
+###################
+# Just prior
+###################
+########
+# State
+########
+m.justPrior.state <- priors.states
+colnames(m.justPrior.state)[3] <- "model"
+m.justPrior.state$imageCategory <- NULL
+m.justPrior.state$imageID.reordered <- NULL
+m.justPrior.state$utterance <- NULL
+m.justPrior.state <- join(m.justPrior.state, interp.states, by=c("imageID", "state"))
+with(m.justPrior.state, cor.test(model, prob))
+ggplot(m.justPrior.state, aes(x=model, y=prob, color=utterance)) +
+  geom_point() +
+  theme_bw()
+
+#########
+# Valence
+#########
+m.justPrior.valence <- priors.valence
+colnames(m.justPrior.valence)[3] <- "model"
+m.justPrior.valence <- join(m.justPrior.valence, interp.valence, by="imageID")
+with(m.justPrior.valence, cor.test(model, value.corrected))
+ggplot(m.justPrior.valence, aes(x=model, y=value.corrected, color=utterance)) +
+  geom_point() +
+  theme_bw()
+
+#########
+# Arousal
+#########
+m.justPrior.arousal <- priors.arousal
+colnames(m.justPrior.arousal)[3] <- "model"
+m.justPrior.arousal <- join(m.justPrior.arousal, interp.arousal, by="imageID")
+with(m.justPrior.arousal, cor.test(model, value.corrected))
+ggplot(m.justPrior.arousal, aes(x=model, y=value.corrected, color=utterance)) +
+  geom_point() +
+  theme_bw()
+
+####################
+# Just literal
+####################
+#######
+# State
+#######
+m.literal.state <- interp.states
+m.literal.state$model <- ifelse(m.literal.state$state == m.literal.state$utterance, 1, 0)
+with(m.literal.state, cor.test(model, prob))
+ggplot(m.literal.state, aes(x=model, y=prob, color=utterance)) +
+  geom_point() +
+  theme_bw()
+########
+# Valence
+########
+m.literal.valence <- priors.byState.valence
+colnames(m.literal.valence)[4] <- "model"
+m.literal.valence <- join(interp.valence, m.literal.valence, by=c("utterance", "variable"))
+with(m.literal.valence, cor.test(model, value.corrected))
+ggplot(m.literal.valence, aes(x=model, y=value.corrected, color=utterance)) +
+  geom_point() +
+  theme_bw()
+
+########
+# Valence
+########
+m.literal.arousal <- summarySE(data=subset(priors.pca.probit.long, variable=="Comp.2"), measurevar=c("value.corrected"),
+                               groupvars=c("stateRating"))
+colnames(m.literal.arousal)[3] <- "model"
+colnames(m.literal.arousal)[1] <- "utterance"
+m.literal.arousal <- join(interp.arousal, m.literal.arousal, by=c("utterance"))
+with(m.literal.arousal, cor.test(model, value.corrected))
+ggplot(m.literal.arousal, aes(x=model, y=value.corrected, color=utterance)) +
+  geom_point() +
+  theme_bw()
+
+###########################
+# Just valence goal
+###########################
+filenames <- read.csv("../model/parsedOutputsWithParams_noArousal/filenames.txt", header=FALSE)
+models.noA <- data.frame(name=NULL, cor.state=NULL, cor.valence=NULL, cor.arousal=NULL, cor=NULL)
+for (f in filenames$V1) {
+  model.noA <- read.csv(paste("../model/parsedOutputsWithParams_noArousal/", f, sep=""))
+  model.noA$utterance <- factor(model.noA$utterance, levels=c("terrible", "bad", "ok", "good", "amazing"),
+                            labels=c("terrible", "bad", "neutral", "good", "amazing"))
+  
+  # by state
+  model.noA$state <- factor(model.noA$state, levels=c("terrible", "bad", "neutral", "good", "amazing"))
+  model.state.noA <- aggregate(data=model.noA, probability ~ imageID + utterance + state, FUN=sum)
+  comp.state.noA <- join(interp.states, model.state.noA, by=c("imageID", "utterance", "state"))
+  r.state <- with(comp.state.noA, cor(prob, probability))
+  
+  # by valence
+  model.valence.noA <- aggregate(data=model.noA, probability ~ imageID + utterance + valence, FUN=sum)
+  model.valence.pos.noA <- subset(model.valence.noA, valence=="pos")
+  comp.valence.noA <- join(interp.valence, model.valence.pos.noA, by=c("imageID", "utterance"))
+  r.valence <- with(comp.valence.noA, cor(value.corrected, probability))
+  
+  # by arousal
+  model.arousal.noA <- aggregate(data=model.noA, probability ~ imageID + utterance + arousal, FUN=sum)
+  model.arousal.high.noA <- subset(model.arousal.noA, arousal=="high")
+  comp.arousal.noA <- join(interp.arousal, model.arousal.high.noA, by=c("imageID", "utterance"))
+  r.arousal <- with(comp.arousal.noA, cor(value.corrected, probability))
+  
+  r <- mean(c(r.state, r.valence, r.arousal))
+  d <- data.frame(name=f, cor.state=r.state, cor.valence=r.valence, cor.arousal=r.arousal, cor=r)
+  models.noA <- rbind(models.noA, d)
+}
+
+models.noA <- models.noA[with(models.noA, order(-cor)), ]
+
+bestName.noA <- as.character(subset(models.noA, cor==max(models.noA$cor))$name)
+
+model.noArousal <- read.csv(paste("../model/parsedOutputsWithParams_noArousal/", bestName.noA, sep=""))
+model.noArousal$utterance <- factor(model.noArousal$utterance, levels=c("terrible", "bad", "ok", "good", "amazing"),
+                          labels=c("terrible", "bad", "neutral", "good", "amazing"))
+model.noArousal$state <- factor(model.noArousal$state, levels=c("terrible", "bad", "neutral", "good", "amazing"))
+
+#############
+# State
+#############
+model.noArousal.state <- aggregate(data=model.noArousal, probability ~ imageID + utterance + state, FUN=sum)
+colnames(model.noArousal.state)[4] <- "model"
+model.noArousal.state <- join(model.noArousal.state, interp.states, by=c("state", "imageID", "utterance"))
+with(model.noArousal.state, cor.test(model, prob))
+ggplot(model.noArousal.state, aes(x=model, y=prob)) +
+  geom_point() +
+  theme_bw()
+
+########
+# Valence
+########
+model.noArousal.valence <- subset(aggregate(data=model.noArousal, probability ~ imageID + utterance + valence, FUN=sum),
+                                  valence=="pos")
+colnames(model.noArousal.valence)[4] <- "model"
+model.noArousal.valence <- join(model.noArousal.valence, interp.valence, by=c("imageID", "utterance"))
+with(model.noArousal.valence, cor.test(model, value.corrected))
+ggplot(model.noArousal.valence, aes(x=model, y=value.corrected)) +
+  geom_point() +
+  theme_bw()
+
+#########
+# Arousal
+#########
+model.noArousal.arousal <- subset(aggregate(data=model.noArousal, probability ~ imageID + utterance + arousal, FUN=sum),
+                                  arousal=="high")
+colnames(model.noArousal.arousal)[4] <- "model"
+model.noArousal.arousal <- join(model.noArousal.arousal, interp.arousal, by=c("imageID", "utterance"))
+with(model.noArousal.arousal, cor.test(model, value.corrected))
+ggplot(model.noArousal.arousal, aes(x=model, y=value.corrected)) +
+  geom_point() +
+  theme_bw()
+
+######################################
+# Visualize
+######################################
+#######
+# State
+#######
+m.justPrior.state$type <- "prior"
+m.literal.state$type <- "literal"
+model.noArousal.state$type <- "just valence QUD"
+model.all.state<- comp.state
+model.all.state$imageID.utterance <- NULL
+model.all.state$literal <- NULL
+colnames(model.all.state)[5] <- "model"
+model.all.state$type <- "all"
+
+m.comparison.state <- rbind(m.justPrior.state, m.literal.state, model.noArousal.state, model.all.state)
+
+ggplot(m.comparison.state, aes(x=state, y=model, color=type)) +
+  geom_point() +
+  geom_line(aes(group=type)) +
+  facet_grid(imageID ~ utterance) +
+  theme_bw()
+
+########
+# Valence
+########
+m.justPrior.valence$variable <- NULL
+m.justPrior.valence$variable <- NULL
+m.justPrior.valence$N <- NULL
+m.justPrior.valence$sd <- NULL
+m.justPrior.valence$se <- NULL
+m.justPrior.valence$ci <- NULL
+m.justPrior.valence$type <- "prior"
+
+m.literal.valence$variable <- NULL
+m.literal.valence$N <- NULL
+m.literal.valence$N <- NULL
+m.literal.valence$sd <- NULL
+m.literal.valence$sd <- NULL
+m.literal.valence$se <- NULL
+m.literal.valence$se <- NULL
+m.literal.valence$ci <- NULL
+m.literal.valence$ci <- NULL
+m.literal.valence$type <- "literal"
+
+model.noArousal.valence$valence <- NULL
+model.noArousal.valence$variable <- NULL
+model.noArousal.valence$N <- NULL
+model.noArousal.valence$se <- NULL
+model.noArousal.valence$sd <- NULL
+model.noArousal.valence$ci <- NULL
+model.noArousal.valence$type <- "just valence QUD"
+
+model.all.valence <- comp.valence
+model.all.valence$variable <- NULL
+model.all.valence$Comp.1 <- NULL
+model.all.valence$N <- NULL
+model.all.valence$sd <- NULL
+model.all.valence$se <- NULL
+model.all.valence$ci <- NULL
+model.all.valence$valence <- NULL
+model.all.valence$utteranceValence <- NULL
+model.all.valence$interpValence <- NULL
+model.all.valence$valenceFlip <- NULL
+colnames(model.all.valence)[4] <- "model"
+model.all.valence$type <- "all"
+
+m.comparison.valence <- rbind(m.justPrior.valence, m.literal.valence, model.noArousal.valence, model.all.valence)
+
+ggplot(m.comparison.valence, aes(x=utterance, y=model, color=type)) +
+  geom_point() +
+  geom_line(aes(group=type)) +
+  facet_grid(imageID ~ .) +
+  theme_bw()
+
+
+  

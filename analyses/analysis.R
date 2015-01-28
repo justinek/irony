@@ -489,13 +489,14 @@ comp.all <- data.frame(interp=c(comp.state$interp, comp.valence$interp, comp.aro
                        utterance=c(as.character(comp.state$utterance), as.character(comp.valence$utterance), 
                                    as.character(comp.arousal$utterance)))
 comp.all$interp <- factor(comp.all$interp, levels=c("state", "valence", "arousal"))
-ggplot(comp.all, aes(x=model, y=human, fill=utterance)) +
-  geom_point(shape=21, color="black") +
+comp.all$utterance <- factor(comp.all$utterance, levels=c("terrible", "bad", "neutral", "good", "amazing"))
+ggplot(comp.all, aes(x=model, y=human, color=utterance)) +
+  geom_point() +
   geom_smooth(aes(group=interp), method=lm, color="grey") +
   facet_grid(.~interp) +
   theme_bw() +
   ylim(c(0, 1)) +
-  scale_fill_manual(values=c("#d7191c", "#fdae61", "gray", "#abd9e9", "#2c7bb6"))
+  scale_color_manual(values=c("#2c7bb6", "#abd9e9", "gray", "#fdae61", "#d7191c"))
 
 #########################
 # Add priors
@@ -981,11 +982,32 @@ model.all.valence$type <- "all"
 
 m.comparison.valence <- rbind(m.justPrior.valence, m.literal.valence, model.noArousal.valence, model.all.valence)
 
-ggplot(m.comparison.valence, aes(x=utterance, y=model, color=type)) +
-  geom_point() +
-  geom_line(aes(group=type)) +
-  facet_grid(imageID ~ .) +
+ggplot(m.comparison.valence, aes(x=type, y=model, color=type)) +
+  #geom_point() +
+  #geom_line(aes(group=type)) +
+  geom_bar(stat="identity", color="black") +
+  facet_grid(imageID ~ utterance) +
   theme_bw()
 
 
-  
+m.comparison.valence.long <- m.comparison.valence
+m.comparison.valence.long$value.corrected <- NULL
+colnames(m.comparison.valence.long)[2] <- "probability"
+interp.valence.simplified <- interp.valence
+interp.valence.simplified$variable <- NULL
+interp.valence.simplified$N <- NULL
+interp.valence.simplified$sd <- NULL
+interp.valence.simplified$se <- NULL
+interp.valence.simplified$ci <- NULL
+colnames(interp.valence.simplified)[3] <- "probability"
+interp.valence.simplified$type <- "human"
+
+m.comparison.valence.long <- rbind(m.comparison.valence.long, interp.valence.simplified)
+
+ggplot(m.comparison.valence.long, aes(x=type, y=model, fill=type)) +
+  #geom_point() +
+  #geom_line(aes(group=type)) +
+  geom_bar(stat="identity", color="black") +
+  facet_grid(imageID ~ utterance) +
+  theme_bw()
+

@@ -485,14 +485,17 @@ comp.arousal$interp <- "arousal"
 comp.all <- data.frame(interp=c(comp.state$interp, comp.valence$interp, comp.arousal$interp),
                        imageID=c(comp.state$imageID, comp.valence$imageID, comp.arousal$imageID),
                        human=c(comp.state$prob, comp.valence$value.corrected, comp.arousal$value.corrected),
-                       model=c(comp.state$probability, comp.valence$probability, comp.arousal$probability))
+                       model=c(comp.state$probability, comp.valence$probability, comp.arousal$probability),
+                       utterance=c(as.character(comp.state$utterance), as.character(comp.valence$utterance), 
+                                   as.character(comp.arousal$utterance)))
 comp.all$interp <- factor(comp.all$interp, levels=c("state", "valence", "arousal"))
-ggplot(comp.all, aes(x=model, y=human)) +
-  geom_point() +
-  geom_smooth(method=lm, color="grey") +
-  facet_grid(interp~.) +
+ggplot(comp.all, aes(x=model, y=human, fill=utterance)) +
+  geom_point(shape=21, color="black") +
+  geom_smooth(aes(group=interp), method=lm, color="grey") +
+  facet_grid(.~interp) +
   theme_bw() +
-  ylim(c(0, 1))
+  ylim(c(0, 1)) +
+  scale_fill_manual(values=c("#d7191c", "#fdae61", "gray", "#abd9e9", "#2c7bb6"))
 
 #########################
 # Add priors
@@ -820,7 +823,7 @@ ggplot(m.literal.valence, aes(x=model, y=value.corrected, color=utterance)) +
   theme_bw()
 
 ########
-# Valence
+# Arousal
 ########
 m.literal.arousal <- summarySE(data=subset(priors.pca.probit.long, variable=="Comp.2"), measurevar=c("value.corrected"),
                                groupvars=c("stateRating"))

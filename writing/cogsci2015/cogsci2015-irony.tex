@@ -288,7 +288,7 @@ By calculating the average probabilities of positive valence and high arousal gi
 
 \subsection{Experiment 2: Irony understanding}
 %In Experiment 1, we obtained the prior distribution over weather states for each weather context as well as the prior probabilities of positive valence and high arousal given each weather state. 
-Results from Experiment 1 give us necessary components to generate interpretations of utterances from our model. Here we describe an experiment that elicits people's interpretations of utterances, which we then use to evaluate model predictions. 
+Results from Experiment 1 give us the components to generate interpretations of utterances from our model. Here we describe an experiment that elicits people's interpretations of utterances, which we then use to evaluate model predictions. 
 
 
 \subsubsection{Materials and methods}
@@ -328,18 +328,40 @@ We now evaluate the model's performance against these behavioral results. From E
 For each of the $45$ utterance and weather context pairs, the model produced an interpretation consisting of the joint posterior distribution $P(s, A | u)$, where $A$ can be further broken down into valence and arousal dimensions. We will examine the model's performance on each of these state and affect dimensions by marginalizing over the other dimensions.
 
 \todo[inline]{NDG: for each of these correlations also report percent of explainable variance captured with CI (footnote can explain what that is) JTK: still need to do this.}
-Figure ~\ref{model-state} shows participants' and the model's inferences about the actual weather state given an utterance and a weather context. The model predictions closely match humans' interpretations with a correlation of $0.86$ (Figure ~\ref{scatter}). 
-The model also closely corresponds to humans' interpretations of valence, with a correlation of $0.96$. 
+Figure ~\ref{scatter} shows scatter plots correlating model predictions with human interpretation data for each of the dimensions: \textbf{state}, \textbf{valence}, and \textbf{arousal}. %Figure ~\ref{model-state} shows participants' and the model's inferences about the actual weather state given an utterance and a weather context. 
+The model predictions closely match humans' interpretations, with a correlation of $0.86$. 
+The model corresponds to humans' interpretations of valence extremely well, with a correlation of $0.96$. 
 %Figure ~\ref{valence} shows participants' and the models' inference about the speaker's valence given an utterance and a weather context. From the tight correspondence between model and human interpretations of valence ($r=0.96$), we see that the model is able to incorporate the valence associated with the utterance's literal meaning (e.g. ``The weather is terrible") and the valence associated with the weather context (e.g. weather context 1) to interpret the probability of the speaker feeling positive valence. 
-The model infers the appropriate valence even when it is inconsistent with the valence of the utterance's literal meaning, thus capturing the essence of irony. 
+Importantly, the model infers the appropriate valence even when it is inconsistent with the valence of the utterance's literal meaning, thus capturing the essence of irony. 
 %\todo{note that this is the case even when interpreted valence mismatches the prior expected valence given literal meaning -- i.e. the model captures irony in valence.}
-The model's prediction for emotional arousal match humans' with a correlation of $0.66$. Since our analysis of irony ratings from Experiment 2 showed that people perceive irony based on inconsistent polarities between the context and the utterance, our model (which successfully makes use of these polarities to determine the speaker's valence) is able to predict people's irony ratings \todo{JTK: stats!}.
+The model's prediction for emotional arousal match humans' with a correlation of $0.66$. Furthermore, our model is able to use the inconsistent polarities between the context and utterance to predict people's irony ratings \todo{JTK: stats!}.
 %Figure~\ref{arousal} shows participants' and the model's inferences about the speaker's arousal. 
 %\todo{why is this correlation low? is it because of the terrible-bad inversion i asked about above?}
 
-We describe a series of simpler models to show that the full model using a two-dimensional affect space best predicts human interpretations. We first examine a model that interprets utterances literally, such that ``The weather is terrible" is always interpreted as the weather state is \texttt{terrible}, along with the associated valence and arousal. Such a model produces a distribution over states that 
+We describe a series of simpler models to show that the full model using a two-dimensional affect space best predicts human interpretations. We first examine a model that interprets utterances literally, such that ``The weather is terrible" is interpreted as the weather state being \texttt{terrible}, along with the valence and arousal associated with \texttt{terrible} weather. 
+%Such a model produces a distribution over states that correlates with humans' interpretations with $r=0.38$, inference about valence that correlates with humans' with $r=0.45$, and inferences about arousal with a correlation of $r=0.49$. 
+We then examine a model that simply ignores the speaker's utterance and takes into account only the state and affect priors associated with each weather context. 
+%Such a model produces a distribution over states that correlates with humans' interpretations with $r=0.79$, inferences abut valence that correlate with $r=0.84$, and inferences about arousal that correlate with $r= 0.49$. 
+Finally, we examine the performance of a qRSA model with the unidimensional affect space of valence. 
+Table~\ref{table1} shows correlations with each dimension of the human data for each model.
+A model that considers both affect and arousal QUDs outperforms the other models, especially with respect to inferences about valence, which is the most important aspect of irony.
+These results suggest that by reasoning about a speaker who may want to communicate her emotional arousal in addition to valence, the model is able to incorporate background knowledge and linguistic information to produce the appropriate nonliteral interpretations---ironic and hyperbolic---as well as the associated affects. 
+%Fitting two free parameters to maximize fit with human data, the model obtains a state correlation of $r=0.84$, a valence correlation of $r=0.79$, and an arousal correlation of $r=0.61$.
 
-These results suggest that the model is able to incorporate background knowledge and reasoning about multiple affective goals to produce the appropriate nonliteral interpretations---ironic and hyperbolic---as well as the associated affects. 
+\begin{table}
+\begin{tabular}{ |c | c | c | c | c | }
+  \hline
+  Model & State & Valence & Arousal & Average \\\hline                        
+  Literal & 0.38 & 0.45 & 0.49 & 0.44\\
+  Prior & 0.79 & 0.84 & 0.49 &  0.71 \\
+  Valence & 0.84 & 0.79 & 0.61 & 0.75 \\
+  Valence + arousal & 0.86 & 0.96 & 0.66 & 0.83\\
+  \hline  
+\end{tabular}
+\caption{}
+\label{table1}
+\end{table}
+
 
 %\todo[inline]{it would be nice to have some more direct analysis of irony -- that when state/valence mismatches that expected from literal meaning the model can predict it. this may also be a good place to come back to the explicit irony judgements: something like probability the interpretation is on the opposite side of the prior mean? or something more general that would also apply to ironic propositions? oh.. we should totally say something in the discussion about ironic propositions and other non-scalar irony.}
 

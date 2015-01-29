@@ -218,11 +218,14 @@ affect.pca.long$value.corrected <- ifelse(affect.pca.long$variable == "Comp.1", 
 # states
 splithalf.state <- data.frame(cors=NULL)
 t = 1
-while (t <= 1000) {
+while (t <= 100) {
   nWorkers <- length(unique(interp$workerID))
   ii <- seq_len(nWorkers)
-  ind1 <- sample(ii, nWorkers / 2) 
-  ind2 <- ii[!ii %in% ind1] 
+  indices <- sample(ii, nWorkers, replace = TRUE)
+  ind1 <- indices[1:ceiling(nWorkers/2)]
+  ind2 <- indices[(ceiling(nWorkers/2) + 1):length(indices)] 
+  #ind1 <- sample(ii, nWorkers / 2) 
+  #ind2 <- ii[!ii %in% ind1] 
   interp.1 <- subset(interp, workerID %in% ind1)
   interp.2 <- subset(interp, workerID %in% ind2)
   states.1 <- as.data.frame(prop.table(with(interp.1, table(imageID.utterance, stateRating)) + 1, margin=1))
@@ -247,18 +250,23 @@ prophet <- function(reliability, length) {
 
 splithalf.state$proph <- prophet(splithalf.state$cors, 2)
 
-summarySE(splithalf.state, measurevar=c("proph", groupvars=NULL))
+split.cor.state <- summarySE(splithalf.state, measurevar=c("proph", groupvars=NULL))
 
 # affects
 
 splithalf.cors <- data.frame(valence=NULL, arousal=NULL)
 t = 1
 while (t <= 1000) {
-  ii <- seq_len(nrow(affect.pca))
-  ind1 <- sample(ii, nrow(affect.pca) / 2) 
-  ind2 <- ii[!ii %in% ind1] 
-  h1 <- affect.pca[ind1, ] 
-  h2 <- affect.pca[ind2, ]
+  nWorkers <- length(unique(affect.pca$workerID))
+  ii <- seq_len(nWorkers)
+  indices <- sample(ii, nWorkers, replace = TRUE)
+  ind1 <- indices[1:ceiling(nWorkers/2)]
+  ind2 <- indices[(ceiling(nWorkers/2) + 1):length(indices)] 
+  
+  #ind1 <- sample(ii, nWorkers / 2) 
+  #ind2 <- ii[!ii %in% ind1] 
+  h1 <- subset(affect.pca, workerID %in% ind1)
+  h2 <- subset(affect.pca, workerID %in% ind2)
   h1.valence.summary <- summarySE(h1, measurevar="Comp.1", groupvars=c("imageID", "utterance"))
   h1.arousal.summary <- summarySE(h1, measurevar="Comp.2", groupvars=c("imageID", "utterance"))
   h2.valence.summary <- summarySE(h2, measurevar="Comp.1", groupvars=c("imageID", "utterance"))
@@ -276,7 +284,7 @@ while (t <= 1000) {
     this.frame <- data.frame(valence=valence.cor,
                              arousal=arousal.cor)
     splithalf.cors <- rbind(splithalf.cors, this.frame)
-  }
+ }
 }
 
 splithalf.cors <- splithalf.cors[complete.cases(splithalf.cors),]
@@ -286,6 +294,42 @@ splithalf.cors$arousal.proph <- prophet(splithalf.cors$arousal, 2)
 
 valence.proph.summary  <- summarySE(data=splithalf.cors, measurevar="valence.proph", groupvars=NULL)
 arousal.proph.summary  <- summarySE(data=splithalf.cors, measurevar="arousal.proph", groupvars=NULL)
+
+#################
+# Irony split-half
+#################
+irony.cors <- data.frame(cors=NULL)
+t = 1
+while (t <= 100) {
+  nWorkers <- length(unique(interp$workerID))
+  ii <- seq_len(nWorkers)
+  indices <- sample(ii, nWorkers, replace = TRUE)
+  ind1 <- indices[1:ceiling(nWorkers/2)]
+  ind2 <- indices[(ceiling(nWorkers/2) + 1):length(indices)] 
+  
+  #ind1 <- sample(ii, nWorkers / 2) 
+  #ind2 <- ii[!ii %in% ind1] 
+  h1 <- subset(interp, workerID %in% ind1)
+  h2 <- subset(interp, workerID %in% ind2)
+  h1.summary <- summarySE(h1, measurevar="ironyRating", groupvars=c("imageID", "utterance"))
+  h2.summary <- summarySE(h2, measurevar="ironyRating", groupvars=c("imageID", "utterance"))
+  colnames(h1.summary)[4] <- "irony1"
+  colnames(h2.summary)[4] <- "irony2"
+  if (nrow(h1.summary) == nrow(h2.summary)) {
+    splithalf.i <- join(h1.summary, h2.summary, by=c("imageID", "utterance"))
+    t <- t+1
+    i.cor <- with(splithalf.i, cor(irony1, irony2))
+    this.frame <- data.frame(cors=i.cor)
+    irony.cors <- rbind(irony.cors, this.frame)
+  }
+}
+
+irony.cors <- subset(irony.cors, !is.na(cors))
+irony.cors$proph <- prophet(irony.cors$cors, 2)
+
+irony.cors.summary  <- summarySE(data=irony.cors, measurevar="proph", groupvars=NULL)
+
+######################
 
 ######################
 # affect
@@ -380,6 +424,10 @@ comp.state <- join(interp.states, model.state, by=c("imageID", "utterance", "sta
 comp.state <- join(interp.states, model.state, by=c("imageID", "utterance", "state"))
 with(comp.state, cor.test(prob, probability))
 comp.state$literal <- ifelse(comp.state$state==comp.state$utterance, "literal", "non")
+splithalf.state <- as.data.frame(splithalf.state)
+splithalf.state$modelCor <- best.state
+splithalf.state$modelPercent <- splithalf.state$modelCor / splithalf.state$proph
+summarySE(splithalf.state, measurevar="modelPercent", groupvars=NULL)
 
 # getValence <- function(state) {
 #   if (state=="terrible" | state=="bad") {
@@ -437,6 +485,12 @@ ggsave("../writing/cogsci2015/model-state.pdf", width=10, height=9, units="in")
 #####
 # Valence
 #####
+splithalf.cors$modelValence <- with(comp.valence, cor(value.corrected, probability))
+splithalf.cors$modelArousal <- with(comp.arousal, cor(value.corrected, probability))
+splithalf.cors$valencePercent <- splithalf.cors$modelValence / splithalf.cors$valence.proph
+splithalf.cors$arousalPercent <- splithalf.cors$modelArousal /splithalf.cors$arousal.proph
+summarySE(splithalf.cors, measurevar="valencePercent", groupvars=NULL)
+summarySE(splithalf.cors, measurevar="arousalPercent", groupvars=NULL)
 
 interp.valence <- subset(affect.pca.summary, variable=="Comp.1")
 model.valence.pos <- subset(model.valence, valence=="pos")
@@ -671,7 +725,16 @@ model.valence.litComp.irony$valenceDiff <- model.valence.litComp.irony$probabili
 
 summary(lm(data=model.valence.litComp.irony, ironyRating ~ probability * literalValence))
 summary(lm(data=model.valence.litComp.irony, ironyRating ~ valenceFlip))
+with(model.valence.litComp.irony, cor.test(ironyRating, valenceFlip))
 summary(lm(data=model.valence.litComp.irony, ironyRating ~ valenceDiff))
+model.valence.litComp.irony$literalValenceCat <- ifelse(model.valence.litComp.irony$literalValence < 0.5, "neg", "pos")
+model.valence.litComp.irony$inferredValenceCat <- ifelse(model.valence.litComp.irony$probability < 0.5, "neg", "pos")
+model.valence.litComp.irony$litInferredConsistent <- ifelse(model.valence.litComp.irony$literalValenceCat==
+                                                              model.valence.litComp.irony$inferredValenceCat, 1, 0)
+model.valence.litComp.irony$consistent <- factor(model.valence.litComp.irony$consistent)
+model.valence.litComp.irony$litInferredConsistent <- factor(model.valence.litComp.irony$litInferredConsistent)
+summary(lm(data=model.valence.litComp.irony, ironyRating ~ consistent))
+summary(lm(data=model.valence.litComp.irony, ironyRating ~ litInferredConsistent))
 
 ggplot(model.valence.litComp.irony, aes(x=valenceFlip, y=ironyRating, color=utterance)) +
   geom_point() +
@@ -1004,7 +1067,7 @@ interp.valence.simplified$type <- "human"
 
 m.comparison.valence.long <- rbind(m.comparison.valence.long, interp.valence.simplified)
 
-ggplot(m.comparison.valence.long, aes(x=type, y=model, fill=type)) +
+ggplot(m.comparison.valence.long, aes(x=type, y=probability, fill=type)) +
   #geom_point() +
   #geom_line(aes(group=type)) +
   geom_bar(stat="identity", color="black") +

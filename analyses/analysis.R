@@ -542,7 +542,7 @@ comp.all <- data.frame(interp=c(comp.state$interp, comp.valence$interp, comp.aro
                        model=c(comp.state$probability, comp.valence$probability, comp.arousal$probability),
                        utterance=c(as.character(comp.state$utterance), as.character(comp.valence$utterance), 
                                    as.character(comp.arousal$utterance)))
-comp.all$interp <- factor(comp.all$interp, levels=c("state", "valence", "arousal"))
+comp.all$interp <- factor(comp.all$interp, levels=c("state", "valence", "arousal"), labels=c("State", "Valence", "Arousal"))
 comp.all$utterance <- factor(comp.all$utterance, levels=c("terrible", "bad", "neutral", "good", "amazing"))
 ggplot(comp.all, aes(x=model, y=human, color=utterance)) +
   geom_point() +
@@ -550,7 +550,13 @@ ggplot(comp.all, aes(x=model, y=human, color=utterance)) +
   facet_grid(.~interp) +
   theme_bw() +
   ylim(c(0, 1)) +
-  scale_color_manual(values=c("#2c7bb6", "#abd9e9", "gray", "#fdae61", "#d7191c"))
+  scale_color_manual(values=c("#2c7bb6", "#abd9e9", "gray", "#fdae61", "#d7191c"), name="Utterance") +
+  xlab("Model") +
+  ylab("Human") +
+  theme(axis.text.x = element_text(size=12), axis.text.y = element_text(size=12),
+        axis.title.x = element_text(size=15), axis.title.y = element_text(size=15),
+        strip.text.x = element_text(size = 16),
+        legend.text=element_text(size=X))
 
 #########################
 # Add priors

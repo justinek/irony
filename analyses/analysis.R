@@ -94,6 +94,7 @@ ggplot(priors.pca.probit.summary, aes(x=stateRating, y=value.corrected, color=va
   ylab("Probability") +
   scale_color_discrete(name="Affect dimension", labels=c("Positive valence", "High arousal"))
   
+priors.pca.probit.byImage
 
 ####################################
 # Interpretation data
@@ -128,7 +129,7 @@ ggplot(irony.summary, aes(x=utterance, y=ironyRating)) +
   geom_errorbar(aes(ymin=ironyRating-se, ymax=ironyRating+se), position=position_dodge(0.9), width=0.2) +
   facet_wrap(~imageID, ncol=3) +
   theme_bw() +
-  ylab("Irony rating")
+  ylab("Irony rating") 
 
 
 # Mixed model
@@ -155,11 +156,37 @@ interp.states$state <- factor(interp.states$state, levels=c("terrible", "bad", "
 
 #quartz()
 
+interp.states$imageID.reordered <- factor(interp.states$imageID, levels=c(3, 2, 1, 6, 5, 4, 8, 7, 9),
+                                               labels=c("w1", "w2", "w3", "w4", "w5", "w6", "w7", "w8", "w9"))
+
+interp.states$priorCat <- ifelse(interp.states$imageID <=3, "Positive", ifelse(interp.states$imageID >=7, "Negative", "Neutral"))
+interp.states$priorCat <- factor(interp.states$priorCat, levels=c("Positive", "Neutral", "Negative"))
 ggplot(interp.states, aes(x=state, y=Freq)) +
-  geom_bar(stat="identity", fill="gray", color="black") + 
+  #geom_bar(stat="identity", fill="gray", color="black") + 
+  geom_point(aes(color=priorCat)) +
+  geom_line(aes(group=imageID, color=priorCat)) +
   ylab("probability") +
-  facet_grid(imageID~utterance) +
-  theme_bw()
+  facet_grid(imageID.reordered~utterance) +
+  theme_bw() +
+  scale_color_manual(values=c("#fc4e2a", "#99d8c9", "#2b8cbe"), name="Weather type") +
+  ylim(c(0, 1)) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+# Create plot of just w2, w6, w8 for illustration purposes
+interp.states.subset <- subset(interp.states, (imageID.reordered=="w2" | imageID.reordered=="w6" | imageID.reordered=="w8")
+                               & utterance=="terrible") 
+
+interp.states.subset$imageID.reordered <- factor(interp.states.subset$imageID.reordered, levels=c("w8", "w6", "w2"))
+ggplot(interp.states.subset, aes(x=state, y=Freq)) +
+  #geom_bar(stat="identity", fill="gray", color="black") + 
+  geom_point(aes(color=priorCat)) +
+  geom_line(aes(group=imageID, color=priorCat)) +
+  ylab("probability") +
+  facet_grid(.~imageID.reordered) +
+  theme_bw() +
+  #theme(axis.text.x = element_text(angle= 90, hjust=1)) +
+  scale_color_manual(values=c("#fc4e2a", "#99d8c9", "#2b8cbe"), guide=FALSE)
+  
 
 # Compare irony and state distribution
 colnames(interp.states)[3] <- "prob"
@@ -345,6 +372,24 @@ ggplot(affect.pca.summary, aes(x=utterance, y=value.corrected, color=variable)) 
   geom_errorbar(aes(ymin=value.corrected-se, ymax=value.corrected+se), width=0.05) +
   facet_wrap(~imageID, ncol=3) +
   theme_bw()
+
+affect.pca.summary$imageID.reordered <- factor(affect.pca.summary$imageID, levels=c(3, 2, 1, 6, 5, 4, 8, 7, 9),
+                                               labels=c("w1", "w2", "w3", 
+                                                        "w4", "w5", "w6", 
+                                                        "w7", "w8", "w9"))
+# subset for presentation (w2, w6, w8)
+affect.pca.summary.subset <- subset(affect.pca.summary, (imageID.reordered == "w2" | imageID.reordered=="w6" | imageID.reordered=="w8")
+                                    & utterance=="terrible")
+affect.pca.summary.subset$imageID.reordered <- factor(affect.pca.summary.subset$imageID.reordered, levels=c("w8", "w6", "w2"))
+ggplot(affect.pca.summary.subset, aes(x=variable, y=value.corrected)) +
+  geom_bar(stat="identity") +
+  theme_bw() +
+  facet_grid(.~imageID.reordered)
+
+priors.affect.byImage.summary$imageID.reordered <- factor(priors.affect.byImage.summary$imageID, levels=c(3, 2, 1, 6, 5, 4, 8, 7, 9),
+                                               labels=c("w1", "w2", "w3", 
+                                                        "w4", "w5", "w6", 
+                                                        "w7", "w8", "w9"))
 
 
 ####################################
@@ -553,10 +598,10 @@ ggplot(comp.all, aes(x=model, y=human, color=utterance)) +
   scale_color_manual(values=c("#2c7bb6", "#abd9e9", "gray", "#fdae61", "#d7191c"), name="Utterance") +
   xlab("Model") +
   ylab("Human") +
-  theme(axis.text.x = element_text(size=12), axis.text.y = element_text(size=12),
+  theme(axis.text.x = element_text(size=11), axis.text.y = element_text(size=11),
         axis.title.x = element_text(size=15), axis.title.y = element_text(size=15),
         strip.text.x = element_text(size = 16),
-        legend.text=element_text(size=X))
+        legend.text=element_text(size=14), legend.title=element_text(size=15))
 
 #########################
 # Add priors
@@ -757,6 +802,26 @@ toy.priors <- data.frame(imageID=c(1,1,1,1,1,2,2,2,2,2), utterance=c("prior", "p
                                                                    "terrible", "bad", "neutral", "good", "amazing"),
                          probability=c(0.1, 0.5, 0.2, 0.1, 0.1, 0.1, 0.1, 0.1, 0.2, 0.5))
 
+
+toy.priors$state <- factor(toy.priors$state, levels=c("terrible", "bad", "neutral", "good", "amazing"))
+toy.priors$imageID <- factor(toy.priors$imageID, labels=c("Bad weather", "Amazing weather"))
+
+ggplot(toy.priors, aes(x=state, y=probability, color="gray")) +
+  geom_point() +
+  geom_line(aes(group=imageID), linetype=2) +
+  facet_grid(.~imageID) +
+  theme_bw() +
+  xlab("Weather state") +
+  ylab("Probability") +
+  scale_color_manual(values=c("grey"), labels=c("Prior"), name="", guide=FALSE) +
+  ylim(c(0, 0.6))
+
+toy.priors <- data.frame(imageID=c(1,1,1,1,1,2,2,2,2,2), utterance=c("prior", "prior", "prior", "prior", "prior",
+                                                                     "prior", "prior", "prior", "prior", "prior"),
+                         state=c("terrible", "bad", "neutral", "good", "amazing", 
+                                 "terrible", "bad", "neutral", "good", "amazing"),
+                         probability=c(0.1, 0.5, 0.2, 0.1, 0.1, 0.1, 0.1, 0.1, 0.2, 0.5))
+
 toy.1 <- read.csv("../model/modeltoy-1affect.csv")
 toy.1.state <- aggregate(data=toy.1, probability ~ imageID + utterance + state, FUN=sum)
 toy.1.state.priors <- rbind(toy.priors, toy.1.state)
@@ -764,12 +829,13 @@ toy.1.state.priors$state <- factor(toy.1.state.priors$state, levels=c("terrible"
 toy.1.state.priors$imageID <- factor(toy.1.state.priors$imageID, labels=c("Bad weather", "Amazing weather"))
 ggplot(toy.1.state.priors, aes(x=state, y=probability, color=utterance)) +
   geom_point() +
-  geom_line(aes(group=utterance)) +
+  geom_line(aes(group=utterance, linetype=utterance)) +
   facet_grid(.~imageID) +
   theme_bw() +
   xlab("Weather state") +
   ylab("Probability") +
-  scale_color_manual(values=c("grey", "black"), labels=c("Prior", '"The weather is terrible."'), name="") +
+  scale_color_manual(values=c("grey", "#8da0cb"), labels=c("Prior", "Valence QUD"), name="", guide=FALSE) +
+  scale_linetype_manual(values=c(2, 1), guide=FALSE) +
   ylim(c(0, 0.6))
 
 toy.2 <- read.csv("../model/modeltoy-2affect.csv")
@@ -818,10 +884,11 @@ ggplot(toy.model.comp, aes(x=state, y=probability, color=affect)) +
   theme_bw() +
   xlab("Weather state") +
   ylab("Probability") +
-  scale_color_manual(values=c("grey", "#8da0cb", "#d95f02"), name="") +
+  scale_color_manual(values=c("grey", "#8da0cb", "#d95f02"), name="", guide=FALSE) +
   scale_linetype_manual(values=c(2, 1, 1), guide=FALSE) +
   #scale_color_brewer(palette="Set2") +
-  theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank())
+  theme(panel.grid.minor=element_blank(), panel.grid.major=element_blank()) +
+  ylim(0, 0.6)
 
 #################################################################
 # Model comparisons
